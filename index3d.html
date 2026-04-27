@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LUMIÈRE — 3D Elite Space</title>
+    <meta name="description" content="LUMIÈRE — 3D exclusive connections" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Tenor+Sans&display=swap" rel="stylesheet" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      
+      body {
+        font-family: 'Tenor Sans', sans-serif;
+        background: #000;
+        color: #f5f5f0;
+        overflow: hidden;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      #canvas-container {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+      }
+
+      .ui-overlay {
+        position: fixed;
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      .ui-overlay > * {
+        pointer-events: auto;
+      }
+
+      .header {
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 2rem;
+        background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+      }
+
+      .logo {
+        font-size: 1.6rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        color: #c9a962;
+      }
+
+      .badges {
+        display: flex;
+        gap: 0.8rem;
+      }
+
+      .chip {
+        border: 1px solid rgba(201, 169, 98, 0.3);
+        padding: 0.4rem 0.8rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .chip.gold {
+        background: rgba(201, 169, 98, 0.15);
+        border-color: #c9a962;
+        color: #c9a962;
+      }
+
+      .bottom-panel {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        padding: 2rem;
+        background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+      }
+
+      .profile-info {
+        position: absolute;
+        left: 2rem;
+        bottom: 6rem;
+        max-width: 280px;
+      }
+
+      .profile-info h2 {
+        font-size: 1.8rem;
+        font-weight: 500;
+        margin-bottom: 0.3rem;
+      }
+
+      .profile-info .city {
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .profile-info .bio {
+        color: #aaa;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        font-style: italic;
+      }
+
+      .actions {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .action-btn {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        border: 2px solid rgba(201, 169, 98, 0.3);
+        background: rgba(20, 20, 20, 0.8);
+        color: #c9a962;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .action-btn:hover {
+        border-color: #c9a962;
+        background: rgba(201, 169, 98, 0.15);
+        transform: scale(1.1);
+      }
+
+      .action-btn.like {
+        background: linear-gradient(135deg, #9a7d3e, #c9a962);
+        color: #000;
+        border-color: #c9a962;
+      }
+
+      .action-btn.super {
+        width: 56px;
+        height: 56px;
+        font-size: 1.2rem;
+      }
+
+      .stats-bar {
+        position: absolute;
+        right: 2rem;
+        bottom: 6rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: right;
+      }
+
+      .stat {
+        text-align: right;
+      }
+
+      .stat-value {
+        font-size: 1.4rem;
+        color: #c9a962;
+      }
+
+      .stat-label {
+        font-size: 0.7rem;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .loading {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        transition: opacity 0.8s ease;
+      }
+
+      .loading.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .loading span {
+        font-size: 1.2rem;
+        letter-spacing: 0.3em;
+        color: #c9a962;
+        animation: pulse 2s ease infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+
+      .membership-panel {
+        position: fixed;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .member-btn {
+        background: rgba(20, 20, 20, 0.9);
+        border: 1px solid rgba(201, 169, 98, 0.3);
+        color: #c9a962;
+        padding: 0.8rem 1.2rem;
+        font-family: 'Tenor Sans', sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+      }
+
+      .member-btn:hover {
+        background: rgba(201, 169, 98, 0.15);
+        border-color: #c9a962;
+      }
+
+      .price {
+        color: #f5f5f0;
+        margin: 0.5rem 0;
+      }
+
+      .hint {
+        position: fixed;
+        left: 50%;
+        bottom: 9rem;
+        transform: translateX(-50%);
+        color: #666;
+        font-size: 0.8rem;
+        letter-spacing: 0.05em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading" id="loading"><span>LUMIÈRE</span></div>
+    
+    <div id="canvas-container"></div>
+
+    <header class="ui-overlay header">
+      <div class="logo">LUMIÈRE</div>
+      <div class="badges">
+        <span class="chip gold" id="planBadge">Member</span>
+        <span class="chip" id="verifiedBadge">Unverified</span>
+      </div>
+    </header>
+
+    <div class="profile-info ui-overlay" style="left: 2rem; bottom: 6rem;">
+      <h2 id="profileName">Princess Alina</h2>
+      <p class="city" id="profileCity">Moscow, 26</p>
+      <p class="bio" id="profileBio">Sorbonne. Charity, opera, antique jewelry.</p>
+      <div class="tags" id="profileTags" style="margin-top: 0.8rem; display: flex; gap: 0.4rem;"></div>
+    </div>
+
+    <div class="ui-overlay stats-bar" style="right: 2rem; bottom: 6rem;">
+      <div class="stat">
+        <p class="stat-value" id="likesLeft">5</p>
+        <p class="stat-label">Likes Today</p>
+      </div>
+      <div class="stat">
+        <p class="stat-value" id="matchesCount">0</p>
+        <p class="stat-label">Matches</p>
+      </div>
+    </div>
+
+    <div class="ui-overlay hint">Swipe or click buttons to connect</div>
+
+    <div class="membership-panel ui-overlay" style="right: 2rem;">
+      <span class="chip" style="text-align: right;">Elite Membership</span>
+      <p class="price">₽125 000 /year</p>
+      <button class="member-btn" id="premiumBtn">Become Elite</button>
+    </div>
+
+    <div class="ui-overlay bottom-panel">
+      <div class="actions">
+        <button class="action-btn" id="skipBtn">✕</button>
+        <button class="action-btn like" id="likeBtn">♥</button>
+        <button class="action-btn super" id="superBtn">★</button>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="script3d.js"></script>
+  </body>
+</html>
