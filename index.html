@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIOLET CROWN — Private Society</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08070d;
+      --card: rgba(18, 14, 30, 0.85);
+      --line: rgba(185, 154, 255, 0.22);
+      --text: #f5f0ff;
+      --muted: #9a8fb0;
+      --violet: #7d44e6;
+      --violet-light: #bb8cff;
+      --violet-soft: #a26bff;
+      --shadow: 0 20px 60px rgba(10, 2, 28, 0.6);
+      --mx: 50%;
+      --my: 50%;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: radial-gradient(ellipse at 30% 10%, rgba(125,68,230,0.15) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 90%, rgba(187,140,255,0.08) 0%, transparent 40%),
+                  var(--bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .ambient {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .ambient-1 {
+      width: 400px; height: 400px;
+      top: -150px; right: -100px;
+      background: rgba(125,68,230,0.35);
+    }
+    .ambient-2 {
+      width: 300px; height: 300px;
+      bottom: -100px; left: -80px;
+      background: rgba(93,45,170,0.3);
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      letter-spacing: 6px;
+      background: linear-gradient(135deg, #d6b8ff 0%, #fff 50%, #d6b8ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shine 3s linear infinite;
+    }
+    @keyframes shine {
+      to { background-position: 200% center; }
+    }
+    nav { display: flex; gap: 10px; flex-wrap: wrap; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 10px 18px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      font-size: 13px;
+      transition: all 0.3s;
+    }
+    nav a:hover, nav a.active {
+      background: var(--violet);
+      color: #130a20;
+      border-color: var(--violet);
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      margin: 20px 0;
+    }
+    .kicker {
+      color: var(--violet-light);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 500;
+      margin: 15px 0;
+      max-width: 700px;
+      line-height: 1.2;
+    }
+    .hero-text {
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 650px;
+      margin: 20px 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin: 25px 0;
+    }
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 25px;
+      text-align: center;
+    }
+    .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: var(--violet-light);
+    }
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+    .btn {
+      padding: 14px 28px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s;
+      border: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--violet), var(--violet-light));
+      color: #130a20;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+    .btn:hover { transform: translateY(-2px); }
+    
+    /* Apply Page */
+    .form-grid { display: grid; gap: 15px; margin-top: 20px; }
+    .form-grid label { display: block; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+    .form-grid input, .form-grid textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .form-grid input:focus, .form-grid textarea:focus {
+      border-color: var(--violet-soft);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(125,68,230,0.2);
+    }
+    
+    /* Members */
+    .members-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .member {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 18px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+    .member img {
+      width: 55px; height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .member-name { font-weight: 600; font-size: 16px; }
+    .member-role { color: var(--muted); font-size: 13px; margin-top: 3px; }
+    .member-badge {
+      margin-left: auto;
+      color: var(--violet-light);
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+    
+    /* Profile */
+    .profile-header {
+      text-align: center;
+      padding: 30px 0;
+    }
+    .avatar {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet), var(--violet-light));
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 600;
+      color: #130a20;
+    }
+    .invite-box {
+      background: rgba(125,68,230,0.1);
+      border: 1px solid rgba(125,68,230,0.3);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      margin: 25px 0;
+    }
+    .invite-code {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      letter-spacing: 6px;
+      color: var(--violet-light);
+    }
+    
+    @media (max-width: 600px) {
+      header { flex-direction: column; text-align: center; }
+      .card { padding: 25px; }
+      .btn-group { flex-direction: column; }
+      .btn { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient ambient-1"></div>
+  <div class="ambient ambient-2"></div>
+  
+  <div class="container">
+    <header>
+      <a href="index.html" class="brand">VIOLET CROWN</a>
+      <nav>
+        <a href="index.html" class="active">Главная</a>
+        <a href="invite.html">Вход</a>
+        <a href="apply.html">Заявка</a>
+        <a href="members.html">Участники</a>
+        <a href="profile.html">Профиль</a>
+      </nav>
+    </header>
+
+    <div class="card">
+      <p class="kicker">PRIVATE SOCIETY</p>
+      <h1>Не тебя выбирают. Ты выбираешь эпоху.</h1>
+      <p class="hero-text">
+        VIOLET CROWN — приватный клуб премиальных знакомств, где мужчины и женщины проходят верификацию и знакомятся в атмосфере доверия, безопасности и взаимного уважения.
+      </p>
+      
+      <div class="stats-grid">
+        <div class="stat">
+          <p class="stat-value">9 999 ₽</p>
+          <p class="stat-label">в месяц</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">5</p>
+          <p class="stat-label">участников</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">0</p>
+          <p class="stat-label">заявок</p>
+        </div>
+      </div>
+      
+      <div class="btn-group">
+        <a href="invite.html" class="btn btn-primary">Ввести код приглашения</a>
+        <a href="apply.html" class="btn btn-outline">Нет кода? Подать заявку</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
