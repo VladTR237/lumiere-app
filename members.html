@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIOLET CROWN — Участники</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08070d;
+      --card: rgba(18, 14, 30, 0.85);
+      --line: rgba(185, 154, 255, 0.22);
+      --text: #f5f0ff;
+      --muted: #9a8fb0;
+      --violet: #7d44e6;
+      --violet-light: #bb8cff;
+      --violet-soft: #a26bff;
+      --shadow: 0 20px 60px rgba(10, 2, 28, 0.6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: radial-gradient(ellipse at 30% 10%, rgba(125,68,230,0.15) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 90%, rgba(187,140,255,0.08) 0%, transparent 40%),
+                  var(--bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    .ambient {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .ambient-1 {
+      width: 400px; height: 400px;
+      top: -150px; right: -100px;
+      background: rgba(125,68,230,0.35);
+    }
+    .ambient-2 {
+      width: 300px; height: 300px;
+      bottom: -100px; left: -80px;
+      background: rgba(93,45,170,0.3);
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      letter-spacing: 6px;
+      background: linear-gradient(135deg, #d6b8ff 0%, #fff 50%, #d6b8ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shine 3s linear infinite;
+    }
+    @keyframes shine { to { background-position: 200% center; } }
+    nav { display: flex; gap: 10px; flex-wrap: wrap; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 10px 18px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      font-size: 13px;
+      transition: all 0.3s;
+    }
+    nav a:hover, nav a.active {
+      background: var(--violet);
+      color: #130a20;
+      border-color: var(--violet);
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      margin: 20px 0;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .kicker {
+      color: var(--violet-light);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 500;
+      margin: 15px 0;
+    }
+    .members-list { display: grid; gap: 12px; margin-top: 25px; }
+    .member {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      transition: all 0.3s;
+    }
+    .member:hover {
+      background: rgba(125,68,230,0.1);
+      border-color: rgba(125,68,230,0.3);
+    }
+    .member img {
+      width: 55px; height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--line);
+    }
+    .member-info { flex: 1; }
+    .member-name { font-weight: 600; font-size: 16px; }
+    .member-role { color: var(--muted); font-size: 13px; margin-top: 3px; }
+    .member-badge {
+      color: var(--violet-light);
+      font-size: 11px;
+      letter-spacing: 2px;
+      font-weight: 500;
+    }
+    
+    @media (max-width: 600px) {
+      header { flex-direction: column; text-align: center; }
+      .card { padding: 25px; }
+      .member { flex-wrap: wrap; }
+      .member-badge { margin-left: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient ambient-1"></div>
+  <div class="ambient ambient-2"></div>
+  
+  <div class="container">
+    <header>
+      <a href="index.html" class="brand">VIOLET CROWN</a>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="invite.html">Вход</a>
+        <a href="apply.html">Заявка</a>
+        <a href="members.html" class="active">Участники</a>
+        <a href="profile.html">Профиль</a>
+      </nav>
+    </header>
+
+    <div class="card">
+      <p class="kicker">РЕЗИДЕНТЫ КЛУБА</p>
+      <h1>Действующие участники</h1>
+      
+      <div class="members-list">
+        <div class="member">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="">
+          <div class="member-info">
+            <p class="member-name">Александр В.</p>
+            <p class="member-role">Предприниматель, Москва</p>
+          </div>
+          <span class="member-badge">ACTIVE</span>
+        </div>
+        <div class="member">
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100" alt="">
+          <div class="member-info">
+            <p class="member-name">Мария К.</p>
+            <p class="member-role">Арт-директор, Санкт-Петербург</p>
+          </div>
+          <span class="member-badge">ACTIVE</span>
+        </div>
+        <div class="member">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="">
+          <div class="member-info">
+            <p class="member-name">Дмитрий С.</p>
+            <p class="member-role">Инвестор, Москва</p>
+          </div>
+          <span class="member-badge">ACTIVE</span>
+        </div>
+        <div class="member">
+          <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=100" alt="">
+          <div class="member-info">
+            <p class="member-name">Екатерина П.</p>
+            <p class="member-role">Галерист, Москва</p>
+          </div>
+          <span class="member-badge">ACTIVE</span>
+        </div>
+        <div class="member">
+          <img src="https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=100" alt="">
+          <div class="member-info">
+            <p class="member-name">Михаил Т.</p>
+            <p class="member-role">Tech Founder, Екатеринбург</p>
+          </div>
+          <span class="member-badge">ACTIVE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
