@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIOLET CROWN — Private Society</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08070d;
+      --card: rgba(18, 14, 30, 0.9);
+      --line: rgba(185, 154, 255, 0.22);
+      --text: #f5f0ff;
+      --muted: #b5aacb;
+      --violet: #7d44e6;
+      --violet-light: #bb8cff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--violet-light); letter-spacing: 6px; text-align: center; margin: 30px 0; }
+    nav { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+    nav a { color: var(--muted); text-decoration: none; padding: 12px 20px; border: 1px solid var(--line); border-radius: 30px; }
+    nav a.active { background: var(--violet); color: #130a20; border-color: var(--violet); }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 30px; margin-bottom: 20px; }
+    h1 { font-family: 'Playfair Display', serif; font-size: 28px; margin: 15px 0; }
+    .kicker { color: var(--violet-light); font-size: 12px; letter-spacing: 3px; }
+    .btn { background: var(--violet); color: #130a20; padding: 14px 24px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; display: inline-block; text-decoration: none; margin: 10px 5px 10px 0; }
+    .btn-outline { background: transparent; border: 1px solid var(--line); color: var(--text); }
+    .price { font-size: 32px; color: var(--violet-light); font-family: 'Playfair Display', serif; }
+    .menu-item { display: flex; align-items: center; gap: 15px; padding: 15px; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 10px; }
+    .menu-item img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+    .status { color: var(--violet-light); font-size: 12px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; color: var(--muted); margin-bottom: 8px; }
+    .form-group input, .form-group textarea { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--line); background: rgba(255,255,255,0.03); color: var(--text); font-size: 14px; }
+    input, textarea { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--line); background: rgba(255,255,255,0.03); color: var(--text); font-size: 14px; }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+    .stat { background: var(--card); border: 1px solid var(--line); border-radius: 15px; padding: 20px; text-align: center; }
+    .stat-value { font-size: 24px; color: var(--violet-light); font-family: 'Playfair Display', serif; }
+    .stat-label { color: var(--muted); font-size: 12px; margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <div class="logo">VIOLET CROWN</div>
+  
+  <nav>
+    <a href="index.html">Главная</a>
+    <a href="invite.html">Вход</a>
+    <a href="apply.html">Заявка</a>
+    <a href="members.html">Участники</a>
+    <a href="profile.html">Профиль</a>
+  </nav>
+
+  <div class="card">
+    <p class="kicker">PRIVATE SOCIETY</p>
+    <h1>Не тебя выбирают. Ты выбираешь эпоху.</h1>
+    <p style="color:var(--muted);line-height:1.7;margin:15px 0;">VIOLET CROWN — приватный клуб премиальных знакомств, где мужчины и женщины проходят верификацию и знакомятся в атмосфере доверия, безопасности и взаимного уважения.</p>
+    
+    <div class="stat-grid">
+      <div class="stat">
+        <p class="stat-value">9 999 ₽</p>
+        <p class="stat-label">в месяц</p>
+      </div>
+      <div class="stat">
+        <p class="stat-value">5</p>
+        <p class="stat-label">участников</p>
+      </div>
+      <div class="stat">
+        <p class="stat-value">0</p>
+        <p class="stat-label">заявок</p>
+      </div>
+    </div>
+    
+    <a href="invite.html" class="btn">Ввести код приглашения</a>
+    <a href="apply.html" class="btn btn-outline">Подать заявку</a>
+  </div>
+</body>
+</html>
