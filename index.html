@@ -1,0 +1,1296 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIOLET CROWN — Private Society</title>
+    <meta
+      name="description"
+      content="VIOLET CROWN — приватный клуб премиальных знакомств с верификацией участников и атмосферой доверия."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="preloader" id="preloader">
+      <p class="preloader-mark">VC</p>
+      <p class="preloader-text">VIOLET CROWN</p>
+    </div>
+
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="shell">
+      <a href="./index.html" class="brand shimmer">VIOLET CROWN</a>
+      <nav class="menu">
+        <button class="menu-item active" data-view-button="invite">Главная</button>
+        <button class="menu-item" data-view-button="members">Участники</button>
+        <button class="menu-item" data-view-button="profile">Профиль</button>
+      </nav>
+      <button class="ghost-button light-button" id="openApplicationFromHeader">
+        Подать заявку
+      </button>
+    </header>
+
+    <main class="shell">
+      <section class="hero card velvet-card">
+        <p class="kicker">PRIVATE SOCIETY</p>
+        <h1>Не тебя выбирают. Ты выбираешь эпоху.</h1>
+        <p class="hero-text">
+          VIOLET CROWN — приватный клуб премиальных знакомств, где мужчины и
+          женщины проходят верификацию и знакомятся в атмосфере доверия,
+          безопасности и взаимного уважения.
+        </p>
+        <p class="hero-text-short">
+          Премиальные знакомства с верификацией, доверием и безопасностью.
+        </p>
+        <div class="hero-actions">
+          <button class="violet-button light-button" data-view-button="invite">
+            Ввести код приглашения
+          </button>
+          <button class="dark-button light-button" data-view-button="application">
+            Нет кода? Подать заявку
+          </button>
+        </div>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat card velvet-card">
+          <p class="stat-label">Ежемесячный взнос</p>
+          <p class="stat-value">9 999 ₽</p>
+        </article>
+        <article class="stat card velvet-card">
+          <p class="stat-label">Активных участников</p>
+          <p class="stat-value" id="membersCounter">5</p>
+        </article>
+        <article class="stat card velvet-card">
+          <p class="stat-label">Новых заявок</p>
+          <p class="stat-value" id="applicationsCounter">0</p>
+        </article>
+      </section>
+
+      <section class="views">
+        <article class="card view active velvet-card" data-view="invite">
+          <p class="kicker">ВХОД ПО ПРИГЛАШЕНИЮ</p>
+          <h2>Введите код приглашения</h2>
+          <form id="inviteForm" class="form-grid">
+            <label>
+              Код приглашения
+              <input
+                id="inviteCodeInput"
+                type="text"
+                placeholder="Например: VC-2026"
+                autocomplete="off"
+                required
+              />
+            </label>
+            <button class="violet-button light-button full" type="submit">
+              Продолжить
+            </button>
+          </form>
+          <p id="inviteMessage" class="muted">
+            Код можно получить только от действующего резидента клуба.
+          </p>
+        </article>
+
+        <article class="card view velvet-card" data-view="application">
+          <p class="kicker">ЗАЯВКА НА ВСТУПЛЕНИЕ</p>
+          <h2>Анкета кандидата</h2>
+          <form id="applicationForm" class="form-grid">
+            <label>Имя и фамилия <input id="fullName" name="fullName" type="text" required /></label>
+            <div class="split">
+              <label>Возраст <input id="age" name="age" type="number" min="18" max="99" required /></label>
+              <label>Город <input id="city" name="city" type="text" required /></label>
+            </div>
+            <label>Род деятельности <input id="occupation" name="occupation" type="text" required /></label>
+            <label>О себе <textarea id="about" name="about" rows="3" required></textarea></label>
+            <label>Кто может вас рекомендовать? <input id="reference" name="reference" type="text" required /></label>
+            <label>Соцсети для верификации <input id="social" name="social" type="text" required /></label>
+            <button class="violet-button light-button full" type="submit">
+              Отправить заявку
+            </button>
+          </form>
+          <p id="applicationMessage" class="muted">
+            Заявка рассматривается закрытым советом в течение 72 часов.
+          </p>
+        </article>
+
+        <article class="card view velvet-card" data-view="members">
+          <p class="kicker">РЕЗИДЕНТЫ КЛУБА</p>
+          <h2>Действующие участники</h2>
+          <div id="membersList" class="members-list"></div>
+        </article>
+
+        <article class="card view velvet-card" data-view="profile">
+          <p class="kicker">ЛИЧНЫЙ КАБИНЕТ</p>
+          <h2>Профиль резидента</h2>
+          <div class="profile-top">
+            <div>
+              <p class="profile-name" id="profileName">Александр</p>
+              <p class="muted" id="profileSince">Резидент с 2024</p>
+            </div>
+            <span class="status-chip" id="membershipBadge">Неактивно</span>
+          </div>
+          <div class="profile-grid">
+            <article class="mini-card">
+              <p class="mini-title">Ваш код приглашения</p>
+              <p class="mini-value" id="personalInviteCode">VC-2026</p>
+              <button class="dark-button light-button small" id="copyInviteCode">
+                Скопировать код
+              </button>
+            </article>
+            <article class="mini-card">
+              <p class="mini-title">Следующее списание</p>
+              <p class="mini-value" id="nextBillingDate">—</p>
+              <button class="violet-button light-button small" id="openPaymentModal">
+                Активировать взнос
+              </button>
+            </article>
+          </div>
+          <div class="notice-list">
+            <article>Новая заявка: Екатерина подала анкету</article>
+            <article>Событие: Private Dinner, 15 мая, Москва</article>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div class="modal" id="paymentModal" aria-hidden="true">
+      <div class="modal-card">
+        <button class="close-button" id="closePaymentModal" aria-label="Закрыть">
+          ×
+        </button>
+        <p class="kicker">ЕЖЕМЕСЯЧНЫЙ ВЗНОС</p>
+        <h3>Оплата членства — 9 999 ₽ / месяц</h3>
+        <p class="muted">Для production подключите Stripe или ЮKassa.</p>
+        <form id="paymentForm" class="form-grid">
+          <label>
+            Номер карты
+            <input
+              id="cardNumber"
+              type="text"
+              inputmode="numeric"
+              placeholder="1111 2222 3333 4444"
+              required
+            />
+          </label>
+          <div class="split">
+            <label>Срок <input id="cardExpiry" type="text" placeholder="12/29" required /></label>
+            <label>CVV <input id="cardCvv" type="password" placeholder="123" required /></label>
+          </div>
+          <button class="violet-button light-button full" type="submit">
+            Подтвердить оплату
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIOLET CROWN — Private Society</title>
+    <meta
+      name="description"
+      content="VIOLET CROWN — приватный клуб премиальных знакомств с верификацией участников и атмосферой доверия."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="preloader" id="preloader">
+      <p class="preloader-mark">VC</p>
+      <p class="preloader-text">VIOLET CROWN</p>
+    </div>
+
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="shell">
+      <a href="./index.html" class="brand shimmer">VIOLET CROWN</a>
+      <nav class="menu">
+        <button class="menu-item active" data-view-button="invite">Главная</button>
+        <button class="menu-item" data-view-button="members">Участники</button>
+        <button class="menu-item" data-view-button="profile">Профиль</button>
+      </nav>
+      <button class="ghost-button light-button" id="openApplicationFromHeader">
+        Подать заявку
+      </button>
+    </header>
+
+    <main class="shell">
+      <section class="hero card velvet-card">
+        <p class="kicker">PRIVATE SOCIETY</p>
+        <h1>Не тебя выбирают. Ты выбираешь эпоху.</h1>
+        <p class="hero-text">
+          VIOLET CROWN — приватный клуб премиальных знакомств, где мужчины и
+          женщины проходят верификацию и знакомятся в атмосфере доверия,
+          безопасности и взаимного уважения.
+        </p>
+        <div class="hero-actions">
+          <button class="violet-button light-button" data-view-button="invite">
+            Ввести код приглашения
+          </button>
+          <button class="dark-button light-button" data-view-button="application">
+            Нет кода? Подать заявку
+          </button>
+        </div>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat card velvet-card">
+          <p class="stat-label">Ежемесячный взнос</p>
+          <p class="stat-value">9 999 ₽</p>
+        </article>
+        <article class="stat card velvet-card">
+          <p class="stat-label">Активных участников</p>
+          <p class="stat-value" id="membersCounter">5</p>
+        </article>
+        <article class="stat card velvet-card">
+          <p class="stat-label">Новых заявок</p>
+          <p class="stat-value" id="applicationsCounter">0</p>
+        </article>
+      </section>
+
+      <section class="views">
+        <article class="card view active velvet-card" data-view="invite">
+          <p class="kicker">ВХОД ПО ПРИГЛАШЕНИЮ</p>
+          <h2>Введите код приглашения</h2>
+          <form id="inviteForm" class="form-grid">
+            <label>
+              Код приглашения
+              <input
+                id="inviteCodeInput"
+                type="text"
+                placeholder="Например: VC-2026"
+                autocomplete="off"
+                required
+              />
+            </label>
+            <button class="violet-button light-button full" type="submit">
+              Продолжить
+            </button>
+          </form>
+          <p id="inviteMessage" class="muted">
+            Код можно получить только от действующего резидента клуба.
+          </p>
+        </article>
+
+        <article class="card view velvet-card" data-view="application">
+          <p class="kicker">ЗАЯВКА НА ВСТУПЛЕНИЕ</p>
+          <h2>Анкета кандидата</h2>
+          <form id="applicationForm" class="form-grid">
+            <label>
+              Имя и фамилия
+              <input id="fullName" name="fullName" type="text" required />
+            </label>
+            <div class="split">
+              <label>
+                Возраст
+                <input id="age" name="age" type="number" min="18" max="99" required />
+              </label>
+              <label>
+                Город
+                <input id="city" name="city" type="text" required />
+              </label>
+            </div>
+            <label>
+              Род деятельности
+              <input id="occupation" name="occupation" type="text" required />
+            </label>
+            <label>
+              О себе
+              <textarea id="about" name="about" rows="3" required></textarea>
+            </label>
+            <label>
+              Кто может вас рекомендовать?
+              <input id="reference" name="reference" type="text" required />
+            </label>
+            <label>
+              Соцсети для верификации
+              <input id="social" name="social" type="text" required />
+            </label>
+            <button class="violet-button light-button full" type="submit">
+              Отправить заявку
+            </button>
+          </form>
+          <p id="applicationMessage" class="muted">
+            Заявка рассматривается закрытым советом в течение 72 часов.
+          </p>
+        </article>
+
+        <article class="card view velvet-card" data-view="members">
+          <p class="kicker">РЕЗИДЕНТЫ КЛУБА</p>
+          <h2>Действующие участники</h2>
+          <div id="membersList" class="members-list"></div>
+        </article>
+
+        <article class="card view velvet-card" data-view="profile">
+          <p class="kicker">ЛИЧНЫЙ КАБИНЕТ</p>
+          <h2>Профиль резидента</h2>
+          <div class="profile-top">
+            <div>
+              <p class="profile-name" id="profileName">Александр</p>
+              <p class="muted" id="profileSince">Резидент с 2024</p>
+            </div>
+            <span class="status-chip" id="membershipBadge">Неактивно</span>
+          </div>
+          <div class="profile-grid">
+            <article class="mini-card">
+              <p class="mini-title">Ваш код приглашения</p>
+              <p class="mini-value" id="personalInviteCode">VC-2026</p>
+              <button class="dark-button light-button small" id="copyInviteCode">
+                Скопировать код
+              </button>
+            </article>
+            <article class="mini-card">
+              <p class="mini-title">Следующее списание</p>
+              <p class="mini-value" id="nextBillingDate">—</p>
+              <button class="violet-button light-button small" id="openPaymentModal">
+                Активировать взнос
+              </button>
+            </article>
+          </div>
+          <div class="notice-list">
+            <article>Новая заявка: Екатерина подала анкету</article>
+            <article>Событие: Private Dinner, 15 мая, Москва</article>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div class="modal" id="paymentModal" aria-hidden="true">
+      <div class="modal-card">
+        <button class="close-button" id="closePaymentModal" aria-label="Закрыть">
+          ×
+        </button>
+        <p class="kicker">ЕЖЕМЕСЯЧНЫЙ ВЗНОС</p>
+        <h3>Оплата членства — 9 999 ₽ / месяц</h3>
+        <p class="muted">Для production подключите Stripe или ЮKassa.</p>
+        <form id="paymentForm" class="form-grid">
+          <label>
+            Номер карты
+            <input
+              id="cardNumber"
+              type="text"
+              inputmode="numeric"
+              placeholder="1111 2222 3333 4444"
+              required
+            />
+          </label>
+          <div class="split">
+            <label>
+              Срок
+              <input id="cardExpiry" type="text" placeholder="12/29" required />
+            </label>
+            <label>
+              CVV
+              <input id="cardCvv" type="password" placeholder="123" required />
+            </label>
+          </div>
+          <button class="violet-button light-button full" type="submit">
+            Подтвердить оплату
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIOLET CROWN — Private Society</title>
+    <meta
+      name="description"
+      content="VIOLET CROWN — закрытое сообщество нового люкса. Вход по приглашению, ежемесячный взнос 9 999 ₽."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="preloader" id="preloader">
+      <p class="preloader-mark">VC</p>
+      <p class="preloader-text">VIOLET CROWN</p>
+    </div>
+
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="shell">
+      <a href="./index.html" class="brand shimmer">VIOLET CROWN</a>
+      <nav class="menu">
+        <button class="menu-item active" data-view-button="invite">Главная</button>
+        <button class="menu-item" data-view-button="members">Участники</button>
+        <button class="menu-item" data-view-button="profile">Профиль</button>
+      </nav>
+      <button class="ghost-button light-button" id="openApplicationFromHeader">
+        Подать заявку
+      </button>
+    </header>
+
+    <main class="shell">
+      <section class="hero card velvet-card">
+        <p class="kicker">PRIVATE SOCIETY</p>
+        <h1>Не тебя выбирают. Ты выбираешь эпоху.</h1>
+        <p class="hero-text">
+          Закрытый клуб в эстетике haute couture: власть вкуса, безупречный
+          статус и абсолютная селективность.
+        </p>
+        <div class="hero-actions">
+          <button class="violet-button light-button" data-view-button="invite">
+            Ввести код приглашения
+          </button>
+          <button class="dark-button light-button" data-view-button="application">
+            Нет кода? Подать заявку
+          </button>
+        </div>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat card velvet-card">
+          <p class="stat-label">Ежемесячный взнос</p>
+          <p class="stat-value">9 999 ₽</p>
+        </article>
+        <article class="stat card velvet-card">
+          <p class="stat-label">Активных участников</p>
+          <p class="stat-value" id="membersCounter">5</p>
+        </article>
+        <article class="stat card velvet-card">
+          <p class="stat-label">Новых заявок</p>
+          <p class="stat-value" id="applicationsCounter">0</p>
+        </article>
+      </section>
+
+      <section class="views">
+        <article class="card view active velvet-card" data-view="invite">
+          <p class="kicker">ВХОД ПО ПРИГЛАШЕНИЮ</p>
+          <h2>Введите код приглашения</h2>
+          <form id="inviteForm" class="form-grid">
+            <label>
+              Код приглашения
+              <input
+                id="inviteCodeInput"
+                type="text"
+                placeholder="Например: VC-2026"
+                autocomplete="off"
+                required
+              />
+            </label>
+            <button class="violet-button light-button full" type="submit">
+              Продолжить
+            </button>
+          </form>
+          <p id="inviteMessage" class="muted">
+            Код можно получить только от действующего резидента клуба.
+          </p>
+        </article>
+
+        <article class="card view velvet-card" data-view="application">
+          <p class="kicker">ЗАЯВКА НА ВСТУПЛЕНИЕ</p>
+          <h2>Анкета кандидата</h2>
+          <form id="applicationForm" class="form-grid">
+            <label
+              >Имя и фамилия
+              <input id="fullName" name="fullName" type="text" required
+            /></label>
+            <div class="split">
+              <label
+                >Возраст
+                <input id="age" name="age" type="number" min="18" max="99" required
+              /></label>
+              <label
+                >Город <input id="city" name="city" type="text" required
+              /></label>
+            </div>
+            <label
+              >Род деятельности
+              <input id="occupation" name="occupation" type="text" required
+            /></label>
+            <label
+              >О себе
+              <textarea id="about" name="about" rows="3" required></textarea
+            ></label>
+            <label
+              >Кто может вас рекомендовать?
+              <input id="reference" name="reference" type="text" required
+            /></label>
+            <label
+              >Соцсети для верификации
+              <input id="social" name="social" type="text" required
+            /></label>
+            <button class="violet-button light-button full" type="submit">
+              Отправить заявку
+            </button>
+          </form>
+          <p id="applicationMessage" class="muted">
+            Заявка рассматривается закрытым советом в течение 72 часов.
+          </p>
+        </article>
+
+        <article class="card view velvet-card" data-view="members">
+          <p class="kicker">РЕЗИДЕНТЫ КЛУБА</p>
+          <h2>Действующие участники</h2>
+          <div id="membersList" class="members-list"></div>
+        </article>
+
+        <article class="card view velvet-card" data-view="profile">
+          <p class="kicker">ЛИЧНЫЙ КАБИНЕТ</p>
+          <h2>Профиль резидента</h2>
+          <div class="profile-top">
+            <div>
+              <p class="profile-name" id="profileName">Александр</p>
+              <p class="muted" id="profileSince">Резидент с 2024</p>
+            </div>
+            <span class="status-chip" id="membershipBadge">Неактивно</span>
+          </div>
+          <div class="profile-grid">
+            <article class="mini-card">
+              <p class="mini-title">Ваш код приглашения</p>
+              <p class="mini-value" id="personalInviteCode">VC-2026</p>
+              <button class="dark-button light-button small" id="copyInviteCode">
+                Скопировать код
+              </button>
+            </article>
+            <article class="mini-card">
+              <p class="mini-title">Следующее списание</p>
+              <p class="mini-value" id="nextBillingDate">—</p>
+              <button class="violet-button light-button small" id="openPaymentModal">
+                Активировать взнос
+              </button>
+            </article>
+          </div>
+          <div class="notice-list">
+            <article>Новая заявка: Екатерина подала анкету</article>
+            <article>Событие: Private Dinner, 15 мая, Москва</article>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div class="modal" id="paymentModal" aria-hidden="true">
+      <div class="modal-card">
+        <button class="close-button" id="closePaymentModal" aria-label="Закрыть">
+          ×
+        </button>
+        <p class="kicker">ЕЖЕМЕСЯЧНЫЙ ВЗНОС</p>
+        <h3>Оплата членства — 9 999 ₽ / месяц</h3>
+        <p class="muted">Для production подключите Stripe или ЮKassa.</p>
+        <form id="paymentForm" class="form-grid">
+          <label>
+            Номер карты
+            <input
+              id="cardNumber"
+              type="text"
+              inputmode="numeric"
+              placeholder="1111 2222 3333 4444"
+              required
+            />
+          </label>
+          <div class="split">
+            <label
+              >Срок
+              <input id="cardExpiry" type="text" placeholder="12/29" required
+            /></label>
+            <label
+              >CVV <input id="cardCvv" type="password" placeholder="123" required
+            /></label>
+          </div>
+          <button class="violet-button light-button full" type="submit">
+            Подтвердить оплату
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIOLET CROWN — Private Society</title>
+    <meta
+      name="description"
+      content="VIOLET CROWN — закрытое сообщество нового люкса. Вход по приглашению, ежемесячный взнос 9 999 ₽."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="preloader" id="preloader">
+      <p class="preloader-mark">VC</p>
+      <p class="preloader-text">VIOLET CROWN</p>
+    </div>
+
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="shell">
+      <a href="./index.html" class="brand shimmer">VIOLET CROWN</a>
+      <nav class="menu">
+        <button class="menu-item active" data-view-button="invite">Главная</button>
+        <button class="menu-item" data-view-button="members">Участники</button>
+        <button class="menu-item" data-view-button="profile">Профиль</button>
+      </nav>
+      <button class="ghost-button" id="openApplicationFromHeader">Подать заявку</button>
+    </header>
+
+    <main class="shell">
+      <section class="hero card velvet-card">
+        <p class="kicker">PRIVATE SOCIETY</p>
+        <h1>Не тебя выбирают. Ты выбираешь эпоху.</h1>
+        <p class="hero-text">
+          Закрытый клуб в эстетике haute couture: власть вкуса, безупречный
+          статус и абсолютная селективность.
+        </p>
+        <div class="hero-actions">
+          <button class="violet-button" data-view-button="invite">Ввести код приглашения</button>
+          <button class="dark-button" data-view-button="application">Нет кода? Подать заявку</button>
+        </div>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat card velvet-card">
+          <p class="stat-label">Ежемесячный взнос</p>
+          <p class="stat-value">9 999 ₽</p>
+        </article>
+        <article class="stat card velvet-card">
+          <p class="stat-label">Активных участников</p>
+          <p class="stat-value" id="membersCounter">5</p>
+        </article>
+        <article class="stat card velvet-card">
+          <p class="stat-label">Новых заявок</p>
+          <p class="stat-value" id="applicationsCounter">0</p>
+        </article>
+      </section>
+
+      <section class="views">
+        <article class="card view active velvet-card" data-view="invite">
+          <p class="kicker">ВХОД ПО ПРИГЛАШЕНИЮ</p>
+          <h2>Введите код приглашения</h2>
+          <form id="inviteForm" class="form-grid">
+            <label>
+              Код приглашения
+              <input
+                id="inviteCodeInput"
+                type="text"
+                placeholder="Например: VC-2026"
+                autocomplete="off"
+                required
+              />
+            </label>
+            <button class="violet-button full" type="submit">Продолжить</button>
+          </form>
+          <p id="inviteMessage" class="muted">
+            Код можно получить только от действующего резидента клуба.
+          </p>
+        </article>
+
+        <article class="card view velvet-card" data-view="application">
+          <p class="kicker">ЗАЯВКА НА ВСТУПЛЕНИЕ</p>
+          <h2>Анкета кандидата</h2>
+          <form id="applicationForm" class="form-grid">
+            <label>Имя и фамилия <input id="fullName" name="fullName" type="text" required /></label>
+            <div class="split">
+              <label>Возраст <input id="age" name="age" type="number" min="18" max="99" required /></label>
+              <label>Город <input id="city" name="city" type="text" required /></label>
+            </div>
+            <label>Род деятельности <input id="occupation" name="occupation" type="text" required /></label>
+            <label>О себе <textarea id="about" name="about" rows="3" required></textarea></label>
+            <label>Кто может вас рекомендовать? <input id="reference" name="reference" type="text" required /></label>
+            <label>Соцсети для верификации <input id="social" name="social" type="text" required /></label>
+            <button class="violet-button full" type="submit">Отправить заявку</button>
+          </form>
+          <p id="applicationMessage" class="muted">
+            Заявка рассматривается закрытым советом в течение 72 часов.
+          </p>
+        </article>
+
+        <article class="card view velvet-card" data-view="members">
+          <p class="kicker">РЕЗИДЕНТЫ КЛУБА</p>
+          <h2>Действующие участники</h2>
+          <div id="membersList" class="members-list"></div>
+        </article>
+
+        <article class="card view velvet-card" data-view="profile">
+          <p class="kicker">ЛИЧНЫЙ КАБИНЕТ</p>
+          <h2>Профиль резидента</h2>
+          <div class="profile-top">
+            <div>
+              <p class="profile-name" id="profileName">Александр</p>
+              <p class="muted" id="profileSince">Резидент с 2024</p>
+            </div>
+            <span class="status-chip" id="membershipBadge">Неактивно</span>
+          </div>
+          <div class="profile-grid">
+            <article class="mini-card">
+              <p class="mini-title">Ваш код приглашения</p>
+              <p class="mini-value" id="personalInviteCode">VC-2026</p>
+              <button class="dark-button small" id="copyInviteCode">Скопировать код</button>
+            </article>
+            <article class="mini-card">
+              <p class="mini-title">Следующее списание</p>
+              <p class="mini-value" id="nextBillingDate">—</p>
+              <button class="violet-button small" id="openPaymentModal">Активировать взнос</button>
+            </article>
+          </div>
+          <div class="notice-list">
+            <article>Новая заявка: Екатерина подала анкету</article>
+            <article>Событие: Private Dinner, 15 мая, Москва</article>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div class="modal" id="paymentModal" aria-hidden="true">
+      <div class="modal-card">
+        <button class="close-button" id="closePaymentModal" aria-label="Закрыть">×</button>
+        <p class="kicker">ЕЖЕМЕСЯЧНЫЙ ВЗНОС</p>
+        <h3>Оплата членства — 9 999 ₽ / месяц</h3>
+        <p class="muted">Для production подключите Stripe или ЮKassa.</p>
+        <form id="paymentForm" class="form-grid">
+          <label>
+            Номер карты
+            <input
+              id="cardNumber"
+              type="text"
+              inputmode="numeric"
+              placeholder="1111 2222 3333 4444"
+              required
+            />
+          </label>
+          <div class="split">
+            <label>Срок <input id="cardExpiry" type="text" placeholder="12/29" required /></label>
+            <label>CVV <input id="cardCvv" type="password" placeholder="123" required /></label>
+          </div>
+          <button class="violet-button full" type="submit">Подтвердить оплату</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIOLET CROWN — Private Society</title>
+    <meta
+      name="description"
+      content="VIOLET CROWN — закрытое сообщество нового люкса. Вход по приглашению, ежемесячный взнос 9 999 ₽."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="shell">
+      <a href="./index.html" class="brand">VIOLET CROWN</a>
+      <nav class="menu">
+        <button class="menu-item active" data-view-button="invite">Главная</button>
+        <button class="menu-item" data-view-button="members">Участники</button>
+        <button class="menu-item" data-view-button="profile">Профиль</button>
+      </nav>
+      <button class="ghost-button" id="openApplicationFromHeader">Подать заявку</button>
+    </header>
+
+    <main class="shell">
+      <section class="hero card">
+        <p class="kicker">PRIVATE SOCIETY</p>
+        <h1>Не тебя выбирают. Ты выбираешь эпоху.</h1>
+        <p class="hero-text">
+          Закрытый клуб в эстетике haute couture: власть вкуса, безупречный
+          статус и абсолютная селективность.
+        </p>
+        <div class="hero-actions">
+          <button class="violet-button" data-view-button="invite">Ввести код приглашения</button>
+          <button class="dark-button" data-view-button="application">Нет кода? Подать заявку</button>
+        </div>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat card">
+          <p class="stat-label">Ежемесячный взнос</p>
+          <p class="stat-value">9 999 ₽</p>
+        </article>
+        <article class="stat card">
+          <p class="stat-label">Активных участников</p>
+          <p class="stat-value" id="membersCounter">5</p>
+        </article>
+        <article class="stat card">
+          <p class="stat-label">Новых заявок</p>
+          <p class="stat-value" id="applicationsCounter">0</p>
+        </article>
+      </section>
+
+      <section class="views">
+        <article class="card view active" data-view="invite">
+          <p class="kicker">ВХОД ПО ПРИГЛАШЕНИЮ</p>
+          <h2>Введите код приглашения</h2>
+          <form id="inviteForm" class="form-grid">
+            <label>
+              Код приглашения
+              <input
+                id="inviteCodeInput"
+                type="text"
+                placeholder="Например: VC-2026"
+                autocomplete="off"
+                required
+              />
+            </label>
+            <button class="violet-button full" type="submit">Продолжить</button>
+          </form>
+          <p id="inviteMessage" class="muted">
+            Код можно получить только от действующего резидента клуба.
+          </p>
+        </article>
+
+        <article class="card view" data-view="application">
+          <p class="kicker">ЗАЯВКА НА ВСТУПЛЕНИЕ</p>
+          <h2>Анкета кандидата</h2>
+          <form id="applicationForm" class="form-grid">
+            <label>Имя и фамилия <input id="fullName" name="fullName" type="text" required /></label>
+            <div class="split">
+              <label>Возраст <input id="age" name="age" type="number" min="18" max="99" required /></label>
+              <label>Город <input id="city" name="city" type="text" required /></label>
+            </div>
+            <label>Род деятельности <input id="occupation" name="occupation" type="text" required /></label>
+            <label>О себе <textarea id="about" name="about" rows="3" required></textarea></label>
+            <label>Кто может вас рекомендовать? <input id="reference" name="reference" type="text" required /></label>
+            <label>Соцсети для верификации <input id="social" name="social" type="text" required /></label>
+            <button class="violet-button full" type="submit">Отправить заявку</button>
+          </form>
+          <p id="applicationMessage" class="muted">
+            Заявка рассматривается закрытым советом в течение 72 часов.
+          </p>
+        </article>
+
+        <article class="card view" data-view="members">
+          <p class="kicker">РЕЗИДЕНТЫ КЛУБА</p>
+          <h2>Действующие участники</h2>
+          <div id="membersList" class="members-list"></div>
+        </article>
+
+        <article class="card view" data-view="profile">
+          <p class="kicker">ЛИЧНЫЙ КАБИНЕТ</p>
+          <h2>Профиль резидента</h2>
+          <div class="profile-top">
+            <div>
+              <p class="profile-name" id="profileName">Александр</p>
+              <p class="muted" id="profileSince">Резидент с 2024</p>
+            </div>
+            <span class="status-chip" id="membershipBadge">Неактивно</span>
+          </div>
+          <div class="profile-grid">
+            <article class="mini-card">
+              <p class="mini-title">Ваш код приглашения</p>
+              <p class="mini-value" id="personalInviteCode">VC-2026</p>
+              <button class="dark-button small" id="copyInviteCode">Скопировать код</button>
+            </article>
+            <article class="mini-card">
+              <p class="mini-title">Следующее списание</p>
+              <p class="mini-value" id="nextBillingDate">—</p>
+              <button class="violet-button small" id="openPaymentModal">Активировать взнос</button>
+            </article>
+          </div>
+          <div class="notice-list">
+            <article>Новая заявка: Екатерина подала анкету</article>
+            <article>Событие: Private Dinner, 15 мая, Москва</article>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div class="modal" id="paymentModal" aria-hidden="true">
+      <div class="modal-card">
+        <button class="close-button" id="closePaymentModal" aria-label="Закрыть">×</button>
+        <p class="kicker">ЕЖЕМЕСЯЧНЫЙ ВЗНОС</p>
+        <h3>Оплата членства — 9 999 ₽ / месяц</h3>
+        <p class="muted">Для production подключите Stripe или ЮKassa.</p>
+        <form id="paymentForm" class="form-grid">
+          <label>
+            Номер карты
+            <input
+              id="cardNumber"
+              type="text"
+              inputmode="numeric"
+              placeholder="1111 2222 3333 4444"
+              required
+            />
+          </label>
+          <div class="split">
+            <label>Срок <input id="cardExpiry" type="text" placeholder="12/29" required /></label>
+            <label>CVV <input id="cardCvv" type="password" placeholder="123" required /></label>
+          </div>
+          <button class="violet-button full" type="submit">Подтвердить оплату</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>THE CIRCLE — Closed Elite Club</title>
+    <meta
+      name="description"
+      content="THE CIRCLE — закрытый клуб для избранных. Вход по приглашению, membership 9 999 ₽/месяц."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="shell">
+      <a href="./index.html" class="brand">THE CIRCLE</a>
+      <nav class="menu">
+        <button class="menu-item active" data-view-button="invite">Главная</button>
+        <button class="menu-item" data-view-button="members">Участники</button>
+        <button class="menu-item" data-view-button="profile">Профиль</button>
+      </nav>
+      <button class="ghost-button" id="openApplicationFromHeader">Подать заявку</button>
+    </header>
+
+    <main class="shell">
+      <section class="hero card">
+        <p class="kicker">CLOSED ELITE SOCIETY</p>
+        <h1>Только по приглашению. Только по рекомендации.</h1>
+        <p class="hero-text">
+          Мы объединяем предпринимателей, инвесторов и культурных лидеров с
+          высоким уровнем приватности и тщательно curated сообществом.
+        </p>
+        <div class="hero-actions">
+          <button class="gold-button" data-view-button="invite">Ввести код приглашения</button>
+          <button class="dark-button" data-view-button="application">Нет кода? Подать заявку</button>
+        </div>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat card">
+          <p class="stat-label">Ежемесячный взнос</p>
+          <p class="stat-value">9 999 ₽</p>
+        </article>
+        <article class="stat card">
+          <p class="stat-label">Активных участников</p>
+          <p class="stat-value" id="membersCounter">5</p>
+        </article>
+        <article class="stat card">
+          <p class="stat-label">Новых заявок</p>
+          <p class="stat-value" id="applicationsCounter">0</p>
+        </article>
+      </section>
+
+      <section class="views">
+        <article class="card view active" data-view="invite">
+          <p class="kicker">ВХОД ПО ПРИГЛАШЕНИЮ</p>
+          <h2>Введите код приглашения</h2>
+          <form id="inviteForm" class="form-grid">
+            <label>
+              Код приглашения
+              <input
+                id="inviteCodeInput"
+                type="text"
+                placeholder="Например: TC-2024"
+                autocomplete="off"
+                required
+              />
+            </label>
+            <button class="gold-button full" type="submit">Продолжить</button>
+          </form>
+          <p id="inviteMessage" class="muted">
+            Код можно получить от действующего члена клуба.
+          </p>
+        </article>
+
+        <article class="card view" data-view="application">
+          <p class="kicker">ЗАЯВКА НА ВСТУПЛЕНИЕ</p>
+          <h2>Анкета кандидата</h2>
+          <form id="applicationForm" class="form-grid">
+            <label>Имя и фамилия <input id="fullName" name="fullName" type="text" required /></label>
+            <div class="split">
+              <label>Возраст <input id="age" name="age" type="number" min="18" max="99" required /></label>
+              <label>Город <input id="city" name="city" type="text" required /></label>
+            </div>
+            <label>Род деятельности <input id="occupation" name="occupation" type="text" required /></label>
+            <label>О себе <textarea id="about" name="about" rows="3" required></textarea></label>
+            <label>Кто может вас рекомендовать? <input id="reference" name="reference" type="text" required /></label>
+            <label>Соцсети для верификации <input id="social" name="social" type="text" required /></label>
+            <button class="gold-button full" type="submit">Отправить заявку</button>
+          </form>
+          <p id="applicationMessage" class="muted">
+            Заявка рассматривается советом клуба до 72 часов.
+          </p>
+        </article>
+
+        <article class="card view" data-view="members">
+          <p class="kicker">УЧАСТНИКИ КЛУБА</p>
+          <h2>Действующие члены</h2>
+          <div id="membersList" class="members-list"></div>
+        </article>
+
+        <article class="card view" data-view="profile">
+          <p class="kicker">ЛИЧНЫЙ КАБИНЕТ</p>
+          <h2>Профиль участника</h2>
+          <div class="profile-top">
+            <div>
+              <p class="profile-name" id="profileName">Александр</p>
+              <p class="muted" id="profileSince">Член клуба с 2024</p>
+            </div>
+            <span class="status-chip" id="membershipBadge">Неактивно</span>
+          </div>
+          <div class="profile-grid">
+            <article class="mini-card">
+              <p class="mini-title">Ваш код приглашения</p>
+              <p class="mini-value" id="personalInviteCode">TC-2024</p>
+              <button class="dark-button small" id="copyInviteCode">Скопировать код</button>
+            </article>
+            <article class="mini-card">
+              <p class="mini-title">Следующее списание</p>
+              <p class="mini-value" id="nextBillingDate">—</p>
+              <button class="gold-button small" id="openPaymentModal">Активировать взнос</button>
+            </article>
+          </div>
+          <div class="notice-list">
+            <article>Новая заявка: Екатерина подала анкету</article>
+            <article>Событие: Закрытый ужин, 15 мая, Москва</article>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div class="modal" id="paymentModal" aria-hidden="true">
+      <div class="modal-card">
+        <button class="close-button" id="closePaymentModal" aria-label="Закрыть">×</button>
+        <p class="kicker">ЕЖЕМЕСЯЧНЫЙ ВЗНОС</p>
+        <h3>Оплата членства — 9 999 ₽ / месяц</h3>
+        <p class="muted">Подключите реальный платежный шлюз (Stripe/ЮKassa) для production.</p>
+        <form id="paymentForm" class="form-grid">
+          <label>
+            Номер карты
+            <input
+              id="cardNumber"
+              type="text"
+              inputmode="numeric"
+              placeholder="1111 2222 3333 4444"
+              required
+            />
+          </label>
+          <div class="split">
+            <label>Срок <input id="cardExpiry" type="text" placeholder="12/29" required /></label>
+            <label>CVV <input id="cardCvv" type="password" placeholder="123" required /></label>
+          </div>
+          <button class="gold-button full" type="submit">Подтвердить оплату</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LUMIÈRE — Elite Connections</title>
+    <meta
+      name="description"
+      content="LUMIÈRE — exclusive connections for distinguished individuals."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="container header">
+      <a href="./index.html" class="logo">LUMIÈRE</a>
+      <div class="header-badges">
+        <span class="chip elite">ELITE</span>
+        <span class="chip" id="verifiedBadge">Не верифицирован</span>
+        <span class="chip accent" id="planBadge">Member</span>
+      </div>
+    </header>
+
+    <main class="container app-layout">
+      <section class="intro">
+        <h1>Изысканные знакомства</h1>
+        <p class="tagline">
+          Для тех, кто ценит исключительность. Только проверенные анкеты
+          избранных.
+        </p>
+        <button class="button verify-btn" id="verifyBtn">
+          Подтвердить статус
+        </button>
+        <div class="stats">
+          <article>
+            <p class="stat-value" id="likesLeft">5</p>
+            <p class="stat-label">Лайков сегодня</p>
+          </article>
+          <article>
+            <p class="stat-value" id="matchesCount">0</p>
+            <p class="stat-label">Мэтчей</p>
+          </article>
+          <article>
+            <p class="stat-value" id="profilePosition">1 / 8</p>
+            <p class="stat-label">Анкета</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="main-grid">
+        <article class="card profile-card">
+          <img id="profileImage" src="" alt="Фото анкеты" />
+          <div class="profile-info">
+            <h2 id="profileName"></h2>
+            <p class="muted" id="profileCity"></p>
+            <p id="profileBio"></p>
+            <div class="tags" id="profileTags"></div>
+          </div>
+          <div class="actions">
+            <button class="button ghost" id="skipButton">Пропустить</button>
+            <button class="button primary" id="likeButton">Лайк</button>
+            <button class="button premium" id="superLikeButton">
+              Суперлайк
+            </button>
+          </div>
+          <p class="note" id="actionMessage">
+            Оцените анкету избранного.
+          </p>
+        </article>
+
+        <aside class="card side-panel">
+          <div class="membership">
+            <h3>Членство</h3>
+            <ul class="benefits">
+              <li>Безлимитные лайки</li>
+              <li>5 суперлайков в день</li>
+              <li>Просмотр избранных</li>
+              <li>Приоритет в ленте</li>
+            </ul>
+            <p class="price">₽125 000 <span>/год</span></p>
+            <button class="button premium full" id="openPaywall">
+              Стать избранным
+            </button>
+          </div>
+          <hr />
+          <h3>Ваши избранные</h3>
+          <div id="matchesList" class="matches-list">
+            <p class="muted">Пока нет избранных.</p>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <div class="modal" id="paymentModal" aria-hidden="true">
+      <div class="modal-content">
+        <button class="close" id="closeModal" aria-label="Закрыть">×</button>
+        <p class="chip accent">LUMIÈRE Elite</p>
+        <h3>Оформление членства</h3>
+        <p class="muted">
+          Для реального запуска подключите Stripe в script.js
+        </p>
+        <form id="paymentForm" class="payment-form">
+          <label>
+            Номер карты
+            <input
+              type="text"
+              id="cardNumber"
+              placeholder="1111 2222 3333 4444"
+              inputmode="numeric"
+              required
+            />
+          </label>
+          <div class="two-cols">
+            <label>
+              Срок
+              <input type="text" id="cardExpiry" placeholder="12/29" required />
+            </label>
+            <label>
+              CVV
+              <input type="password" id="cardCvv" placeholder="123" required />
+            </label>
+          </div>
+<button class="button premium full" type="submit">
+              Оформить — ₽125 000
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="verifyModal" aria-hidden="true">
+      <div class="modal-content">
+        <button class="close" id="closeVerify" aria-label="Закрыть">×</button>
+        <p class="chip">Верификация</p>
+        <h3>Подтверждение статуса</h3>
+        <p class="muted">
+          Сделайте селфи по инструкции. Это демо-верификация.
+        </p>
+        <div class="verify-camera" id="cameraPlaceholder">
+          📷 Камера недоступна в демо
+        </div>
+        <form id="verifyForm" class="payment-form">
+          <button class="button primary full" type="submit">
+            Подтвердить (демо)
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
