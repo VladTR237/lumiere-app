@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIOLET CROWN — Вход</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08070d;
+      --card: rgba(18, 14, 30, 0.85);
+      --line: rgba(185, 154, 255, 0.22);
+      --text: #f5f0ff;
+      --muted: #9a8fb0;
+      --violet: #7d44e6;
+      --violet-light: #bb8cff;
+      --violet-soft: #a26bff;
+      --shadow: 0 20px 60px rgba(10, 2, 28, 0.6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: radial-gradient(ellipse at 30% 10%, rgba(125,68,230,0.15) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 90%, rgba(187,140,255,0.08) 0%, transparent 40%),
+                  var(--bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    .ambient {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .ambient-1 {
+      width: 400px; height: 400px;
+      top: -150px; right: -100px;
+      background: rgba(125,68,230,0.35);
+    }
+    .ambient-2 {
+      width: 300px; height: 300px;
+      bottom: -100px; left: -80px;
+      background: rgba(93,45,170,0.3);
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      letter-spacing: 6px;
+      background: linear-gradient(135deg, #d6b8ff 0%, #fff 50%, #d6b8ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shine 3s linear infinite;
+    }
+    @keyframes shine { to { background-position: 200% center; } }
+    nav { display: flex; gap: 10px; flex-wrap: wrap; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 10px 18px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      font-size: 13px;
+      transition: all 0.3s;
+    }
+    nav a:hover, nav a.active {
+      background: var(--violet);
+      color: #130a20;
+      border-color: var(--violet);
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      margin: 20px auto;
+      max-width: 450px;
+      text-align: center;
+    }
+    .kicker {
+      color: var(--violet-light);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 500;
+      margin: 15px 0;
+    }
+    .form-group { margin-bottom: 18px; text-align: left; }
+    .form-group label { display: block; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .form-group input:focus {
+      border-color: var(--violet-soft);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(125,68,230,0.2);
+    }
+    .btn {
+      padding: 14px 28px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s;
+      border: none;
+      width: 100%;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--violet), var(--violet-light));
+      color: #130a20;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .error {
+      color: #ff6b6b;
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+    }
+    .error.show { display: block; }
+    
+    @media (max-width: 600px) {
+      header { flex-direction: column; text-align: center; }
+      .card { padding: 25px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient ambient-1"></div>
+  <div class="ambient ambient-2"></div>
+  
+  <div class="container">
+    <header>
+      <a href="index.html" class="brand">VIOLET CROWN</a>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="invite.html" class="active">Вход</a>
+        <a href="apply.html">Заявка</a>
+        <a href="members.html">Участники</a>
+        <a href="profile.html">Профиль</a>
+      </nav>
+    </header>
+
+    <div class="card">
+      <p class="kicker">ВХОД ПО ПРИГЛАШЕНИЮ</p>
+      <h1>Введите код приглашения</h1>
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label>Код приглашения</label>
+          <input type="text" id="inviteCode" placeholder="VC-XXXX" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+        <p class="error" id="error">Неверный код приглашения</p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const validCodes = ['VC-2026', 'VIOLET-CROWN', 'PRIVATE-VC'];
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var code = document.getElementById('inviteCode').value.trim().toUpperCase();
+      if (validCodes.includes(code)) {
+        localStorage.setItem('vc_logged', 'true');
+        window.location.href = 'profile.html';
+      } else {
+        document.getElementById('error').classList.add('show');
+      }
+    });
+  </script>
+</body>
+</html>
