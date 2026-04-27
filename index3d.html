@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>LUMIÈRE — Elite Dating</title>
+  <title>LUMIÈRE — Элитные Знакомства</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -25,6 +25,114 @@
       overflow-x: hidden;
     }
     
+    .screen { display: none; }
+    .screen.active { display: flex; }
+    
+    .auth-screen {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      background: linear-gradient(180deg, #0d0d0d 0%, #000 100%);
+    }
+    
+    .logo-reg {
+      font-family: 'Cinzel', serif;
+      font-size: 42px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .tagline {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 50px;
+      letter-spacing: 2px;
+    }
+    
+    .auth-form {
+      width: 100%;
+      max-width: 320px;
+    }
+    
+    .form-title {
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .input {
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 15px;
+      background: var(--card);
+      border: 1px solid #333;
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 15px;
+      font-family: 'Manrope', sans-serif;
+    }
+    
+    .input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    
+    .input::placeholder { color: #555; }
+    
+    .btn-primary {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      border: none;
+      border-radius: 10px;
+      color: #000;
+      font-size: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    
+    .btn-primary:active { transform: scale(0.98); }
+    
+    .btn-secondary {
+      width: 100%;
+      padding: 16px;
+      background: transparent;
+      border: 1px solid #333;
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    
+    .tabs {
+      display: flex;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #333;
+    }
+    
+    .tab {
+      flex: 1;
+      padding: 15px;
+      text-align: center;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    
+    .tab.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+    
     .header {
       display: flex;
       justify-content: space-between;
@@ -40,19 +148,38 @@
     
     .logo {
       font-family: 'Cinzel', serif;
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 600;
       color: var(--gold);
       letter-spacing: 4px;
     }
     
-    .badges { display: flex; gap: 10px; }
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .badges { display: flex; gap: 8px; }
     
     .badge {
-      padding: 8px 14px;
+      padding: 6px 12px;
       border: 1px solid rgba(201,169,98,0.3);
       border-radius: 4px;
-      font-size: 12px;
+      font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -64,8 +191,8 @@
     }
     
     .main {
-      padding-top: 100px;
-      padding-bottom: 180px;
+      padding-top: 90px;
+      padding-bottom: 160px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -173,23 +300,19 @@
       display: flex;
       justify-content: center;
       gap: 40px;
-      margin: 30px 0;
+      margin: 20px 0;
     }
     
     .stat { text-align: center; }
-    .stat-value { font-size: 32px; color: var(--gold); font-weight: 600; }
-    .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .stat-value { font-size: 28px; color: var(--gold); font-weight: 600; }
+    .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
     
     .membership {
-      position: fixed;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
       background: var(--card);
       border: 1px solid #333;
       border-radius: 12px;
       padding: 15px;
-      width: 140px;
+      margin: 20px;
     }
     
     .membership h3 {
@@ -201,7 +324,7 @@
     }
     
     .membership .price {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 600;
       margin: 10px 0;
     }
@@ -230,7 +353,7 @@
     
     .toast {
       position: fixed;
-      top: 120px;
+      top: 100px;
       left: 50%;
       transform: translateX(-50%);
       background: var(--card);
@@ -250,89 +373,169 @@
     }
     
     @media (max-width: 600px) {
-      .membership { display: none; }
       .profile-img { height: 350px; }
+      .logo-reg { font-size: 32px; }
     }
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="logo">LUMIÈRE</div>
-    <div class="badges">
-      <span class="badge gold" id="planBadge">Member</span>
-      <span class="badge" id="verifyBadge">Unverified</span>
-    </div>
-  </header>
-  
-  <main class="main">
-    <div class="stats">
-      <div class="stat">
-        <p class="stat-value" id="likesLeft">5</p>
-        <p class="stat-label">Likes</p>
-      </div>
-      <div class="stat">
-        <p class="stat-value" id="matchesCount">0</p>
-        <p class="stat-label">Matches</p>
-      </div>
+  <!-- ЭКРАН АВТОРИЗАЦИИ -->
+  <div class="screen auth-screen active" id="authScreen">
+    <div class="logo-reg">LUMIÈRE</div>
+    <p class="tagline">ЭЛИТНЫЕ ЗНАКОМСТВА</p>
+    
+    <div class="tabs">
+      <div class="tab active" data-tab="login">Вход</div>
+      <div class="tab" data-tab="register">Регистрация</div>
     </div>
     
-    <div class="profile-card">
-      <img class="profile-img" id="profileImg" src="" alt="Photo">
-      <div class="profile-info">
-        <h2 class="profile-name" id="profileName">Princess Alina</h2>
-        <p class="profile-city" id="profileCity">Moscow, 26</p>
-        <p class="profile-bio" id="profileBio">Sorbonne graduate. Charity, opera, antique jewelry.</p>
-        <div class="tags" id="tags"></div>
+    <!-- Форма входа -->
+    <form class="auth-form" id="loginForm">
+      <p class="form-title">С возвращением</p>
+      <input type="email" class="input" placeholder="Email" required>
+      <input type="password" class="input" placeholder="Пароль" required>
+      <button type="submit" class="btn-primary">Войти</button>
+      <button type="button" class="btn-secondary" onclick="showApp()">Пропустить</button>
+    </form>
+    
+    <!-- Форма регистрации -->
+    <form class="auth-form" id="registerForm" style="display:none;">
+      <p class="form-title">Создать аккаунт</p>
+      <input type="text" class="input" placeholder="Имя" required>
+      <input type="email" class="input" placeholder="Email" required>
+      <input type="password" class="input" placeholder="Пароль" required>
+      <input type="tel" class="input" placeholder="Телефон">
+      <button type="submit" class="btn-primary">Зарегистрироваться</button>
+    </form>
+  </div>
+  
+  <!-- ГЛАВНЫЙ ЭКРАН -->
+  <div class="screen" id="mainScreen">
+    <header class="header">
+      <div class="logo">LUMIÈRE</div>
+      <div class="user-menu">
+        <div class="user-avatar" id="userAvatar">А</div>
+        <div class="badges">
+          <span class="badge gold" id="planBadge">Member</span>
+          <span class="badge" id="verifyBadge">Не верифицирован</span>
+        </div>
       </div>
+    </header>
+    
+    <main class="main">
+      <div class="stats">
+        <div class="stat">
+          <p class="stat-value" id="likesLeft">5</p>
+          <p class="stat-label">Лайков</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value" id="matchesCount">0</p>
+          <p class="stat-label">Мэтчей</p>
+        </div>
+      </div>
+      
+      <div class="profile-card">
+        <img class="profile-img" id="profileImg" src="" alt="Фото">
+        <div class="profile-info">
+          <h2 class="profile-name" id="profileName">Принцесса Алина</h2>
+          <p class="profile-city" id="profileCity">Москва, 26</p>
+          <p class="profile-bio" id="profileBio">Выпускница Сорбонны. Благотворительность, опера, антикварные украшения.</p>
+          <div class="tags" id="tags"></div>
+        </div>
+      </div>
+      
+      <div class="membership">
+        <h3>Элитное членство</h3>
+        <p class="price">₽125 000<span>/год</span></p>
+        <button class="btn-buy" id="buyBtn">Стать элитой</button>
+      </div>
+    </main>
+    
+    <p class="hint">Нажмите кнопку для знакомства</p>
+    
+    <div class="actions">
+      <button class="btn skip" id="skipBtn">✕</button>
+      <button class="btn like" id="likeBtn">♥</button>
+      <button class="btn super" id="superBtn">★</button>
     </div>
-  </main>
-  
-  <p class="hint">Tap buttons below to connect</p>
-  
-  <aside class="membership">
-    <h3>Elite Membership</h3>
-    <p class="price">₽125 000<span>/year</span></p>
-    <button class="btn-buy" id="buyBtn">Become Elite</button>
-    <p style="margin-top:10px;font-size:11px;color:#666;">Unlimited likes<br>Priority visibility</p>
-  </aside>
-  
-  <div class="actions">
-    <button class="btn skip" id="skipBtn">✕</button>
-    <button class="btn like" id="likeBtn">♥</button>
-    <button class="btn super" id="superBtn">★</button>
   </div>
   
   <div class="toast" id="toast"></div>
 
   <script>
+    // Профили
     const profiles = [
-      { name: "Princess Alina", age: 26, city: "Moscow", bio: "Sorbonne graduate. Charity, opera, antique jewelry.", tags: ["Culture", "Travel", "Charity"], img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80" },
-      { name: "Count Egor", age: 29, city: "St. Petersburg", bio: "Family business heir. Vintage watch collector.", tags: ["Business", "Art", "Vintage"], img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80" },
-      { name: "Marquise Sophia", age: 24, city: "Kazan", bio: "Artist at Windsor Gallery. Modern art muse.", tags: ["Art", "Gallery"], img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&q=80" },
-      { name: "Baron Maxim", age: 31, city: "Ekaterinburg", bio: "Tech startup founder. Travel is my life.", tags: ["IT", "Travel"], img: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=800&q=80" },
-      { name: "Duchess Polina", age: 27, city: "Novosibirsk", bio: "CEO of advertising agency. Ambitious.", tags: ["Business", "Career"], img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80" },
-      { name: "Viscount Danil", age: 28, city: "Krasnodar", bio: "Wine trader. Snowboard virtuoso.", tags: ["Wine", "Sport"], img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80" },
-      { name: "Countess Maria", age: 30, city: "Nizhny Novgorod", bio: "Renowned architect. Fan of fine wines.", tags: ["Architecture", "Art"], img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80" },
-      { name: "Lord Ilya", age: 25, city: "Rostov-on-Don", bio: "Investor. Mountains and silence lover.", tags: ["Investing", "Hiking"], img: "https://images.unsplash.com/photo-1504593811423-6dd665756598?w=800&q=80" }
+      { name: "Принцесса Алина", age: 26, city: "Москва", bio: "Выпускница Сорбонны. Благотворительность, опера, антикварные украшения.", tags: ["Культура", "Путешествия", "Благотворительность"], img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80" },
+      { name: "Граф Егор", age: 29, city: "Санкт-Петербург", bio: "Наследник семейного дела. Коллекционер винтажных часов.", tags: ["Бизнес", "Искусство", "Винтаж"], img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80" },
+      { name: "Маркиза София", age: 24, city: "Казань", bio: "Художница, представлена в галерее Виндзор.", tags: ["Искусство", "Галерея", "Творчество"], img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&q=80" },
+      { name: "Барон Максим", age: 31, city: "Екатеринбург", bio: "Основатель tech-стартапа. Путешествия — моя жизнь.", tags: ["IT", "Путешествия", "Бизнес"], img: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=800&q=80" },
+      { name: "Герцогиня Полина", age: 27, city: "Новосибирск", bio: "CEO рекламного агентства. Амбициозна.", tags: ["Бизнес", "Карьера", "Успех"], img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80" },
+      { name: "Виконт Данил", age: 28, city: "Краснодар", bio: "Виноторговец. Виртуоз сноуборда.", tags: ["Вино", "Спорт", "Романтика"], img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80" },
+      { name: "Графиня Мария", age: 30, city: "Нижний Новгород", bio: "Известный архитектор. Ценитель вина.", tags: ["Архитектура", "Искусство", "Дизайн"], img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80" },
+      { name: "Лорд Илья", age: 25, city: "Ростов-на-Дону", bio: "Инвестор. Любитель гор и тишины.", tags: ["Инвестиции", "Хайкинг", "Кофе"], img: "https://images.unsplash.com/photo-1504593811423-6dd665756598?w=800&q=80" }
     ];
     
     let index = 0;
     let likes = 5;
     let matches = [];
     let elite = false;
+    let userName = 'Пользователь';
+    
+    // Переключение табов
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        const isLogin = tab.dataset.tab === 'login';
+        document.getElementById('loginForm').style.display = isLogin ? 'block' : 'none';
+        document.getElementById('registerForm').style.display = isLogin ? 'none' : 'block';
+      });
+    });
+    
+    // Вход
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = e.target.querySelector('input[type="email"]').value;
+      userName = email.split('@')[0];
+      document.getElementById('userAvatar').textContent = userName[0].toUpperCase();
+      showApp();
+      show('С возвращением, ' + userName + '!');
+    });
+    
+    // Регистрация
+    document.getElementById('registerForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = e.target.querySelector('input[type="text"]').value;
+      userName = name;
+      document.getElementById('userAvatar').textContent = name[0].toUpperCase();
+      showApp();
+      show('Добро пожаловать, ' + name + '!');
+    });
+    
+    function showApp() {
+      document.getElementById('authScreen').classList.remove('active');
+      document.getElementById('mainScreen').classList.add('active');
+    }
+    
+    function showApp() {
+      document.getElementById('authScreen').classList.remove('active');
+      document.getElementById('mainScreen').classList.add('active');
+    }
+    
+    const toast = document.getElementById('toast');
+    
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
     
     const imgEl = document.getElementById('profileImg');
     const nameEl = document.getElementById('profileName');
     const cityEl = document.getElementById('profileCity');
     const bioEl = document.getElementById('profileBio');
     const tagsEl = document.getElementById('tags');
-    const toast = document.getElementById('toast');
-    
-    function show(msg) {
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2500);
-    }
     
     function render() {
       const p = profiles[index];
@@ -364,7 +567,7 @@
     
     document.getElementById('likeBtn').addEventListener('click', () => {
       if (!elite && likes <= 0) {
-        show('Limit reached! Become Elite');
+        showToast('Лимит лайков исчерпан! Станьте Элитой');
         return;
       }
       if (!elite) likes--;
@@ -373,9 +576,9 @@
       if (Math.random() > 0.5) {
         matches.push(profiles[index]);
         document.getElementById('matchesCount').textContent = matches.length;
-        show(`✨ Match with ${profiles[index].name}!`);
+        showToast(`✨ Мэтч с ${profiles[index].name}!`);
       } else {
-        show(`♥ Like sent to ${profiles[index].name}`);
+        showToast(`♥ Лайк отправлен ${profiles[index].name}`);
       }
       swipe('right');
     });
@@ -384,20 +587,20 @@
     
     document.getElementById('superBtn').addEventListener('click', () => {
       if (!elite) {
-        show('Super Like is Elite only!');
+        showToast('Суперлайк доступен только для Элиты!');
         return;
       }
       matches.push(profiles[index]);
       document.getElementById('matchesCount').textContent = matches.length;
-      show(`⭐ Super Match with ${profiles[index].name}!`);
+      showToast(`⭐ Супермэтч с ${profiles[index].name}!`);
       swipe('left');
     });
     
     document.getElementById('buyBtn').addEventListener('click', () => {
       elite = true;
-      document.getElementById('planBadge').textContent = 'Elite';
+      document.getElementById('planBadge').textContent = 'Элита';
       document.getElementById('likesLeft').textContent = '∞';
-      show('🎉 Welcome to Elite!');
+      showToast('🎉 Добро пожаловать в Элиту!');
     });
     
     render();
