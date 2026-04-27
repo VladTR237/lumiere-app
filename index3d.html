@@ -14,7 +14,7 @@
       --bg: #0a0a0a;
       --card: #141414;
       --text: #f5f5f0;
-      --muted: #888;
+      --muted: #666;
     }
     
     body {
@@ -22,110 +22,85 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      overflow-x: hidden;
+      overflow: hidden;
+      touch-action: manipulation;
     }
     
-    .screen { display: none; }
+    .screen { display: none; height: 100vh; }
     .screen.active { display: flex; }
     
+    /* === 3D CANVAS === */
+    #canvas3d {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+    
+    /* === AUTH SCREEN === */
     .auth-screen {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
       padding: 20px;
-      background: linear-gradient(180deg, #0d0d0d 0%, #000 100%);
+      background: linear-gradient(180deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.8) 100%);
+      position: relative;
+      z-index: 10;
     }
     
     .logo-reg {
       font-family: 'Cinzel', serif;
-      font-size: 42px;
+      font-size: clamp(32px, 10vw, 48px);
       font-weight: 600;
       color: var(--gold);
-      letter-spacing: 8px;
-      margin-bottom: 10px;
+      letter-spacing: 6px;
+      text-shadow: 0 0 40px rgba(201,169,98,0.3);
+      margin-bottom: 8px;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+      from { text-shadow: 0 0 20px rgba(201,169,98,0.3); }
+      to { text-shadow: 0 0 40px rgba(201,169,98,0.6); }
     }
     
     .tagline {
       color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 50px;
-      letter-spacing: 2px;
+      font-size: clamp(11px, 3vw, 14px);
+      margin-bottom: clamp(30px, 8vw, 50px);
+      letter-spacing: 3px;
     }
     
     .auth-form {
       width: 100%;
-      max-width: 320px;
+      max-width: 340px;
+      background: rgba(20,20,20,0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(201,169,98,0.1);
+      border-radius: 20px;
+      padding: 30px 25px;
+      animation: slideUp 0.5s ease;
     }
     
-    .form-title {
-      font-family: 'Cinzel', serif;
-      font-size: 20px;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    
-    .input {
-      width: 100%;
-      padding: 16px;
-      margin-bottom: 15px;
-      background: var(--card);
-      border: 1px solid #333;
-      border-radius: 10px;
-      color: var(--text);
-      font-size: 15px;
-      font-family: 'Manrope', sans-serif;
-    }
-    
-    .input:focus {
-      outline: none;
-      border-color: var(--gold);
-    }
-    
-    .input::placeholder { color: #555; }
-    
-    .btn-primary {
-      width: 100%;
-      padding: 18px;
-      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-      border: none;
-      border-radius: 10px;
-      color: #000;
-      font-size: 15px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    
-    .btn-primary:active { transform: scale(0.98); }
-    
-    .btn-secondary {
-      width: 100%;
-      padding: 16px;
-      background: transparent;
-      border: 1px solid #333;
-      border-radius: 10px;
-      color: var(--text);
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 15px;
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
     .tabs {
       display: flex;
-      margin-bottom: 30px;
-      border-bottom: 1px solid #333;
+      margin-bottom: 25px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     
     .tab {
       flex: 1;
-      padding: 15px;
+      padding: 12px;
       text-align: center;
       color: var(--muted);
       cursor: pointer;
+      font-size: 14px;
       border-bottom: 2px solid transparent;
+      transition: all 0.3s;
     }
     
     .tab.active {
@@ -133,11 +108,79 @@
       border-bottom-color: var(--gold);
     }
     
+    .form-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .input {
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 15px;
+      font-family: 'Manrope', sans-serif;
+      transition: all 0.3s;
+    }
+    
+    .input:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(201,169,98,0.05);
+    }
+    
+    .input::placeholder { color: #555; }
+    
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary:active { transform: scale(0.97); }
+    
+    .btn-secondary {
+      width: 100%;
+      padding: 14px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: all 0.3s;
+    }
+    
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+    
+    /* === MAIN SCREEN === */
+    .main-screen {
+      flex-direction: column;
+      position: relative;
+      z-index: 10;
+    }
+    
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px;
+      padding: 15px 20px;
       background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
       position: fixed;
       top: 0;
@@ -148,237 +191,327 @@
     
     .logo {
       font-family: 'Cinzel', serif;
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 600;
       color: var(--gold);
-      letter-spacing: 4px;
+      letter-spacing: 3px;
     }
     
-    .user-menu {
+    .user-info {
       display: flex;
       align-items: center;
       gap: 10px;
     }
     
     .user-avatar {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
-      background: var(--gold);
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
       display: flex;
       align-items: center;
       justify-content: center;
       color: #000;
       font-weight: 600;
       font-size: 14px;
+      cursor: pointer;
     }
     
-    .badges { display: flex; gap: 8px; }
-    
-    .badge {
-      padding: 6px 12px;
-      border: 1px solid rgba(201,169,98,0.3);
-      border-radius: 4px;
+    .status-badge {
+      padding: 5px 10px;
+      background: rgba(201,169,98,0.15);
+      border: 1px solid var(--gold);
+      border-radius: 20px;
       font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      color: var(--gold);
     }
     
-    .badge.gold {
-      background: var(--gold);
-      color: #000;
-      border-color: var(--gold);
-    }
-    
-    .main {
-      padding-top: 90px;
-      padding-bottom: 160px;
-      min-height: 100vh;
+    .content {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      padding: 80px 15px 180px;
     }
     
-    .profile-card {
-      width: 90%;
-      max-width: 340px;
+    /* === 3D CARD === */
+    .card-container {
+      perspective: 1000px;
+      width: 100%;
+      max-width: 300px;
+      height: 420px;
+      cursor: grab;
+    }
+    
+    .card-container:active { cursor: grabbing; }
+    
+    .card {
+      width: 100%;
+      height: 100%;
       background: var(--card);
       border-radius: 20px;
       overflow: hidden;
-      border: 1px solid #222;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border: 1px solid rgba(201,169,98,0.2);
+      box-shadow: 0 25px 80px rgba(0,0,0,0.6), 0 0 1px rgba(201,169,98,0.3);
+      transform-style: preserve-3d;
+      transition: transform 0.1s;
+      position: relative;
     }
     
-    .profile-img {
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.8) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .card-img {
       width: 100%;
-      height: 400px;
+      height: 100%;
       object-fit: cover;
-      background: #1a1a1a;
+      position: absolute;
+      inset: 0;
     }
     
-    .profile-info {
+    .card-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
       padding: 20px;
+      z-index: 2;
     }
     
-    .profile-name {
+    .card-name {
       font-family: 'Cinzel', serif;
       font-size: 24px;
+      font-weight: 500;
       margin-bottom: 4px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
     }
     
-    .profile-city {
-      color: var(--muted);
+    .card-city {
+      color: rgba(255,255,255,0.7);
       font-size: 14px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     
-    .profile-bio {
-      color: #aaa;
-      font-size: 14px;
-      line-height: 1.5;
-      font-style: italic;
-    }
-    
-    .tags {
+    .card-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
+      gap: 6px;
     }
     
-    .tag {
-      padding: 6px 12px;
-      border: 1px solid #333;
-      border-radius: 20px;
+    .card-tag {
+      padding: 4px 10px;
+      background: rgba(201,169,98,0.2);
+      border: 1px solid rgba(201,169,98,0.3);
+      border-radius: 15px;
       font-size: 11px;
       color: var(--gold);
     }
     
+    /* === STATS === */
+    .stats {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+    
+    .stat { text-align: center; }
+    .stat-value { font-size: 24px; color: var(--gold); font-weight: 600; }
+    .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+    
+    /* === ACTIONS === */
     .actions {
       position: fixed;
-      bottom: 40px;
+      bottom: 30px;
       left: 0;
       right: 0;
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 15px;
       padding: 0 20px;
       z-index: 100;
     }
     
-    .btn {
-      width: 70px;
-      height: 70px;
+    .btn-action {
+      width: clamp(55px, 15vw, 65px);
+      height: clamp(55px, 15vw, 65px);
       border-radius: 50%;
-      border: 2px solid #333;
-      background: var(--card);
-      color: var(--gold);
-      font-size: 28px;
+      border: 2px solid rgba(255,255,255,0.1);
+      background: rgba(20,20,20,0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      font-size: clamp(18px, 5vw, 24px);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s;
+      -webkit-tap-highlight-color: transparent;
     }
     
-    .btn:active { transform: scale(0.95); }
+    .btn-action:active { transform: scale(0.9); }
     
-    .btn.like {
-      width: 80px;
-      height: 80px;
+    .btn-action.like {
+      width: clamp(65px, 18vw, 75px);
+      height: clamp(65px, 18vw, 75px);
       background: linear-gradient(135deg, var(--gold-dark), var(--gold));
       border-color: var(--gold);
       color: #000;
-      font-size: 32px;
-      box-shadow: 0 10px 30px rgba(201,169,98,0.3);
+      font-size: clamp(22px, 6vw, 28px);
+      box-shadow: 0 8px 30px rgba(201,169,98,0.4);
     }
     
-    .btn.skip:hover { border-color: #ff4444; color: #ff4444; }
-    .btn.super:hover { border-color: #44aaff; color: #44aaff; }
-    
-    .stats {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      margin: 20px 0;
+    .btn-action.super {
+      color: #44aaff;
+      border-color: rgba(68,170,255,0.3);
     }
     
-    .stat { text-align: center; }
-    .stat-value { font-size: 28px; color: var(--gold); font-weight: 600; }
-    .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-    
-    .membership {
-      background: var(--card);
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 15px;
-      margin: 20px;
+    .btn-action.liked {
+      animation: likeAnim 0.4s ease;
     }
     
-    .membership h3 {
-      font-size: 11px;
+    @keyframes likeAnim {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    
+    /* === MEMBERSHIP === */
+    .membership-btn {
+      position: fixed;
+      bottom: 110px;
+      right: 15px;
+      background: rgba(20,20,20,0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--gold);
+      border-radius: 25px;
+      padding: 10px 16px;
       color: var(--gold);
+      font-size: 11px;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 10px;
-    }
-    
-    .membership .price {
-      font-size: 22px;
-      font-weight: 600;
-      margin: 10px 0;
-    }
-    
-    .membership .btn-buy {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-      border: none;
-      border-radius: 8px;
-      color: #000;
-      font-weight: 600;
-      font-size: 12px;
-      text-transform: uppercase;
       cursor: pointer;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s;
     }
     
-    .hint {
-      position: fixed;
-      bottom: 130px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: var(--muted);
-      font-size: 14px;
+    .membership-btn:active { transform: scale(0.95); }
+    
+    .membership-btn::before {
+      content: '★';
+      font-size: 10px;
     }
     
+    /* === TOAST === */
     .toast {
       position: fixed;
-      top: 100px;
+      top: 90px;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) translateY(-20px);
       background: var(--card);
       border: 1px solid var(--gold);
-      padding: 15px 25px;
-      border-radius: 10px;
+      padding: 14px 24px;
+      border-radius: 12px;
       font-size: 14px;
       z-index: 200;
-      display: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s;
+      text-align: center;
+      max-width: 90%;
     }
     
-    .toast.show { display: block; animation: fadeIn 0.3s; }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    /* === MATCH MODAL === */
+    .match-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      flex-direction: column;
+      animation: fadeIn 0.3s;
+    }
+    
+    .match-modal.show { display: flex; }
+    
+    .match-modal h2 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(28px, 8vw, 40px);
+      color: var(--gold);
+      margin-bottom: 10px;
+      animation: pulse 1s ease infinite;
+    }
+    
+    .match-modal p {
+      color: var(--muted);
+      margin-bottom: 30px;
+    }
+    
+    .match-modal .btn-primary {
+      max-width: 200px;
+    }
     
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     
-    @media (max-width: 600px) {
-      .profile-img { height: 350px; }
-      .logo-reg { font-size: 32px; }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    /* === 3D PARTICLES === */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 15s infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+      25% { transform: translateY(-100px) translateX(50px); opacity: 0.1; }
+      50% { transform: translateY(-50px) translateX(-30px); opacity: 0.2; }
+      75% { transform: translateY(-150px) translateX(20px); opacity: 0.15; }
     }
   </style>
 </head>
 <body>
+  <!-- 3D ФОН -->
+  <canvas id="canvas3d"></canvas>
+  
+  <!-- ЧАСТИЦЫ -->
+  <div class="particles" id="particles"></div>
+  
   <!-- ЭКРАН АВТОРИЗАЦИИ -->
   <div class="screen auth-screen active" id="authScreen">
     <div class="logo-reg">LUMIÈRE</div>
@@ -389,7 +522,6 @@
       <div class="tab" data-tab="register">Регистрация</div>
     </div>
     
-    <!-- Форма входа -->
     <form class="auth-form" id="loginForm">
       <p class="form-title">С возвращением</p>
       <input type="email" class="input" placeholder="Email" required>
@@ -398,31 +530,26 @@
       <button type="button" class="btn-secondary" onclick="showApp()">Пропустить</button>
     </form>
     
-    <!-- Форма регистрации -->
     <form class="auth-form" id="registerForm" style="display:none;">
       <p class="form-title">Создать аккаунт</p>
-      <input type="text" class="input" placeholder="Имя" required>
+      <input type="text" class="input" placeholder="Ваше имя" required>
       <input type="email" class="input" placeholder="Email" required>
       <input type="password" class="input" placeholder="Пароль" required>
-      <input type="tel" class="input" placeholder="Телефон">
       <button type="submit" class="btn-primary">Зарегистрироваться</button>
     </form>
   </div>
   
   <!-- ГЛАВНЫЙ ЭКРАН -->
-  <div class="screen" id="mainScreen">
+  <div class="screen main-screen" id="mainScreen">
     <header class="header">
       <div class="logo">LUMIÈRE</div>
-      <div class="user-menu">
-        <div class="user-avatar" id="userAvatar">А</div>
-        <div class="badges">
-          <span class="badge gold" id="planBadge">Member</span>
-          <span class="badge" id="verifyBadge">Не верифицирован</span>
-        </div>
+      <div class="user-info">
+        <span class="status-badge" id="planBadge">Member</span>
+        <div class="user-avatar" id="userAvatar">?</div>
       </div>
     </header>
     
-    <main class="main">
+    <div class="content">
       <div class="stats">
         <div class="stat">
           <p class="stat-value" id="likesLeft">5</p>
@@ -434,45 +561,148 @@
         </div>
       </div>
       
-      <div class="profile-card">
-        <img class="profile-img" id="profileImg" src="" alt="Фото">
-        <div class="profile-info">
-          <h2 class="profile-name" id="profileName">Принцесса Алина</h2>
-          <p class="profile-city" id="profileCity">Москва, 26</p>
-          <p class="profile-bio" id="profileBio">Выпускница Сорбонны. Благотворительность, опера, антикварные украшения.</p>
-          <div class="tags" id="tags"></div>
+      <div class="card-container" id="cardContainer">
+        <div class="card" id="card">
+          <img class="card-img" id="cardImg" src="" alt="Фото">
+          <div class="card-info">
+            <h2 class="card-name" id="cardName">Принцесса Алина</h2>
+            <p class="card-city" id="cardCity">Москва, 26</p>
+            <div class="card-tags" id="cardTags"></div>
+          </div>
         </div>
       </div>
-      
-      <div class="membership">
-        <h3>Элитное членство</h3>
-        <p class="price">₽125 000<span>/год</span></p>
-        <button class="btn-buy" id="buyBtn">Стать элитой</button>
-      </div>
-    </main>
+    </div>
     
-    <p class="hint">Нажмите кнопку для знакомства</p>
+    <button class="membership-btn" id="membershipBtn">Элита</button>
     
     <div class="actions">
-      <button class="btn skip" id="skipBtn">✕</button>
-      <button class="btn like" id="likeBtn">♥</button>
-      <button class="btn super" id="superBtn">★</button>
+      <button class="btn-action" id="skipBtn">✕</button>
+      <button class="btn-action like" id="likeBtn">♥</button>
+      <button class="btn-action super" id="superBtn">★</button>
     </div>
+  </div>
+  
+  <!-- MATCH MODAL -->
+  <div class="match-modal" id="matchModal">
+    <h2>✨ МЭТЧ!</h2>
+    <p id="matchName">Вы понравились друг другу!</p>
+    <button class="btn-primary" onclick="closeMatch()">Продолжить</button>
   </div>
   
   <div class="toast" id="toast"></div>
 
   <script>
-    // Профили
+    // === THREE.JS 3D BACKGROUND ===
+    const canvas = document.getElementById('canvas3d');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+    
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambientLight);
+    
+    const pointLight = new THREE.PointLight(0xc9a962, 1, 100);
+    pointLight.position.set(0, 0, 5);
+    scene.add(pointLight);
+    
+    // 3D Particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 200;
+    const positions = new Float32Array(particlesCount * 3);
+    
+    for (let i = 0; i < particlesCount * 3; i++) {
+      positions[i] = (Math.random() - 0.5) * 15;
+    }
+    
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const particlesMaterial = new THREE.PointsMaterial({
+      size: 0.03,
+      color: 0xc9a962,
+      transparent: true,
+      opacity: 0.6
+    });
+    const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particles);
+    
+    // Floating rings
+    const ringGeometry = new THREE.TorusGeometry(3, 0.02, 16, 100);
+    const ringMaterial = new THREE.MeshBasicMaterial({ color: 0xc9a962, transparent: true, opacity: 0.1 });
+    
+    for (let i = 0; i < 3; i++) {
+      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+      ring.rotation.x = Math.PI / 2 + (Math.random() - 0.5);
+      ring.rotation.y = Math.random() * Math.PI;
+      ring.userData.speed = 0.001 + Math.random() * 0.002;
+      ring.userData.offset = Math.random() * Math.PI * 2;
+      scene.add(ring);
+    }
+    
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 0.5;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+    });
+    
+    document.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        mouseX = (e.touches[0].clientX / window.innerWidth - 0.5) * 0.3;
+        mouseY = (e.touches[0].clientY / window.innerHeight - 0.5) * 0.3;
+      }
+    });
+    
+    function animate3d() {
+      requestAnimationFrame(animate3d);
+      
+      particles.rotation.y += 0.0005;
+      particles.rotation.x += 0.0002;
+      
+      scene.children.forEach(child => {
+        if (child.geometry && child.geometry.type === 'TorusGeometry') {
+          child.rotation.z += child.userData.speed;
+        }
+      });
+      
+      // Mouse parallax
+      particles.position.x += (mouseX * 0.5 - particles.position.x) * 0.02;
+      particles.position.y += (mouseY * 0.3 - particles.position.y) * 0.02;
+      
+      renderer.render(scene, camera);
+    }
+    animate3d();
+    
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+    
+    // Create particles DOM
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.animationDelay = Math.random() * 15 + 's';
+      p.style.animationDuration = (10 + Math.random() * 10) + 's';
+      particlesContainer.appendChild(p);
+    }
+    
+    // === PROFILES ===
     const profiles = [
-      { name: "Принцесса Алина", age: 26, city: "Москва", bio: "Выпускница Сорбонны. Благотворительность, опера, антикварные украшения.", tags: ["Культура", "Путешествия", "Благотворительность"], img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80" },
-      { name: "Граф Егор", age: 29, city: "Санкт-Петербург", bio: "Наследник семейного дела. Коллекционер винтажных часов.", tags: ["Бизнес", "Искусство", "Винтаж"], img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80" },
-      { name: "Маркиза София", age: 24, city: "Казань", bio: "Художница, представлена в галерее Виндзор.", tags: ["Искусство", "Галерея", "Творчество"], img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&q=80" },
-      { name: "Барон Максим", age: 31, city: "Екатеринбург", bio: "Основатель tech-стартапа. Путешествия — моя жизнь.", tags: ["IT", "Путешествия", "Бизнес"], img: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=800&q=80" },
-      { name: "Герцогиня Полина", age: 27, city: "Новосибирск", bio: "CEO рекламного агентства. Амбициозна.", tags: ["Бизнес", "Карьера", "Успех"], img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80" },
-      { name: "Виконт Данил", age: 28, city: "Краснодар", bio: "Виноторговец. Виртуоз сноуборда.", tags: ["Вино", "Спорт", "Романтика"], img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80" },
-      { name: "Графиня Мария", age: 30, city: "Нижний Новгород", bio: "Известный архитектор. Ценитель вина.", tags: ["Архитектура", "Искусство", "Дизайн"], img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80" },
-      { name: "Лорд Илья", age: 25, city: "Ростов-на-Дону", bio: "Инвестор. Любитель гор и тишины.", tags: ["Инвестиции", "Хайкинг", "Кофе"], img: "https://images.unsplash.com/photo-1504593811423-6dd665756598?w=800&q=80" }
+      { name: "Принцесса Алина", age: 26, city: "Москва", bio: "Выпускница Сорбонны. Благотворительность, опера.", tags: ["Культура", "Путешествия"], img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80" },
+      { name: "Граф Егор", age: 29, city: "Санкт-Петербург", bio: "Наследник семейного дела. Часы.", tags: ["Бизнес", "Искусство"], img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80" },
+      { name: "Маркиза София", age: 24, city: "Казань", bio: "Художница галереи Виндзор.", tags: ["Искусство", "Галерея"], img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&q=80" },
+      { name: "Барон Максим", age: 31, city: "Екатеринбург", bio: "Основатель стартапа.", tags: ["IT", "Путешествия"], img: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=800&q=80" },
+      { name: "Герцогиня Полина", age: 27, city: "Новосибирск", bio: "CEO рекламного агентства.", tags: ["Бизнес", "Карьера"], img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80" },
+      { name: "Виконт Данил", age: 28, city: "Краснодар", bio: "Виноторговец. Сноуборд.", tags: ["Вино", "Спорт"], img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80" },
+      { name: "Графиня Мария", age: 30, city: "Нижний Новгород", bio: "Известный архитектор.", tags: ["Архитектура", "Искусство"], img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80" },
+      { name: "Лорд Илья", age: 25, city: "Ростов-на-Дону", bio: "Инвестор. Горы.", tags: ["Инвестиции", "Хайкинг"], img: "https://images.unsplash.com/photo-1504593811423-6dd665756598?w=800&q=80" }
     ];
     
     let index = 0;
@@ -480,37 +710,72 @@
     let matches = [];
     let elite = false;
     let userName = 'Пользователь';
+    let isAnimating = false;
     
-    // Переключение табов
+    // === CARD 3D EFFECT ===
+    const card = document.getElementById('card');
+    const cardContainer = document.getElementById('cardContainer');
+    let startX = 0, startY = 0, currentX = 0, currentY = 0;
+    let isDragging = false;
+    
+    function updateCardTransform(rotateX, rotateY, translateX) {
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateX(${translateX}px)`;
+    }
+    
+    cardContainer.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+    });
+    
+    cardContainer.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      currentX = e.clientX - startX;
+      currentY = e.clientY - startY;
+      updateCardTransform(currentY * 0.1, currentX * 0.1, currentX);
+    });
+    
+    document.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      currentX = e.touches[0].clientX - startX;
+      currentY = e.touches[0].clientY - startY;
+      updateCardTransform(currentY * 0.1, currentX * 0.1, currentX);
+    }, { passive: true });
+    
+    document.addEventListener('mouseup', () => { isDragging = false; });
+    document.addEventListener('touchend', () => { isDragging = false; });
+    
+    // === TABS ===
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        
-        const isLogin = tab.dataset.tab === 'login';
-        document.getElementById('loginForm').style.display = isLogin ? 'block' : 'none';
-        document.getElementById('registerForm').style.display = isLogin ? 'none' : 'block';
+        document.getElementById('loginForm').style.display = tab.dataset.tab === 'login' ? 'block' : 'none';
+        document.getElementById('registerForm').style.display = tab.dataset.tab === 'register' ? 'block' : 'none';
       });
     });
     
-    // Вход
+    // === AUTH ===
     document.getElementById('loginForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const email = e.target.querySelector('input[type="email"]').value;
-      userName = email.split('@')[0];
+      userName = email.split('@')[0] || 'Пользователь';
       document.getElementById('userAvatar').textContent = userName[0].toUpperCase();
       showApp();
-      show('С возвращением, ' + userName + '!');
     });
     
-    // Регистрация
     document.getElementById('registerForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const name = e.target.querySelector('input[type="text"]').value;
       userName = name;
       document.getElementById('userAvatar').textContent = name[0].toUpperCase();
       showApp();
-      show('Добро пожаловать, ' + name + '!');
     });
     
     function showApp() {
@@ -518,32 +783,13 @@
       document.getElementById('mainScreen').classList.add('active');
     }
     
-    function showApp() {
-      document.getElementById('authScreen').classList.remove('active');
-      document.getElementById('mainScreen').classList.add('active');
-    }
-    
-    const toast = document.getElementById('toast');
-    
-    function showToast(msg) {
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2500);
-    }
-    
-    const imgEl = document.getElementById('profileImg');
-    const nameEl = document.getElementById('profileName');
-    const cityEl = document.getElementById('profileCity');
-    const bioEl = document.getElementById('profileBio');
-    const tagsEl = document.getElementById('tags');
-    
+    // === RENDER ===
     function render() {
       const p = profiles[index];
-      imgEl.src = p.img;
-      nameEl.textContent = p.name;
-      cityEl.textContent = `${p.city}, ${p.age}`;
-      bioEl.textContent = p.bio;
-      tagsEl.innerHTML = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+      document.getElementById('cardImg').src = p.img;
+      document.getElementById('cardName').textContent = p.name;
+      document.getElementById('cardCity').textContent = `${p.city}, ${p.age}`;
+      document.getElementById('cardTags').innerHTML = p.tags.map(t => `<span class="card-tag">${t}</span>`).join('');
     }
     
     function next() {
@@ -551,34 +797,45 @@
       render();
     }
     
+    // === SWIPE ===
     function swipe(direction) {
-      const card = document.querySelector('.profile-card');
-      card.style.transition = 'all 0.3s';
-      card.style.transform = `translateX(${direction === 'left' ? -500 : 500}px) rotate(${direction === 'left' ? -20 : 20}deg)`;
-      card.style.opacity = '0';
+      if (isAnimating) return;
+      isAnimating = true;
+      
+      const targetX = direction === 'left' ? -window.innerWidth : window.innerWidth;
+      const targetRotate = direction === 'left' ? -30 : 30;
+      
+      card.style.transition = 'all 0.4s ease-out';
+      updateCardTransform(0, targetRotate, targetX);
       
       setTimeout(() => {
+        updateCardTransform(0, 0, 0);
         card.style.transition = 'none';
-        card.style.transform = '';
-        card.style.opacity = '';
+        isAnimating = false;
         next();
-      }, 300);
+      }, 400);
     }
     
+    // === ACTIONS ===
     document.getElementById('likeBtn').addEventListener('click', () => {
       if (!elite && likes <= 0) {
-        showToast('Лимит лайков исчерпан! Станьте Элитой');
+        showToast('Лимит исчерпан! Станьте Элитой');
         return;
       }
       if (!elite) likes--;
+      
       document.getElementById('likesLeft').textContent = elite ? '∞' : likes;
+      
+      const likeBtn = document.getElementById('likeBtn');
+      likeBtn.classList.add('liked');
+      setTimeout(() => likeBtn.classList.remove('liked'), 400);
       
       if (Math.random() > 0.5) {
         matches.push(profiles[index]);
         document.getElementById('matchesCount').textContent = matches.length;
-        showToast(`✨ Мэтч с ${profiles[index].name}!`);
+        showMatch(profiles[index].name);
       } else {
-        showToast(`♥ Лайк отправлен ${profiles[index].name}`);
+        showToast(`♥ Лайк ${profiles[index].name}`);
       }
       swipe('right');
     });
@@ -587,22 +844,39 @@
     
     document.getElementById('superBtn').addEventListener('click', () => {
       if (!elite) {
-        showToast('Суперлайк доступен только для Элиты!');
+        showToast('Суперлайк — только для Элиты!');
         return;
       }
       matches.push(profiles[index]);
       document.getElementById('matchesCount').textContent = matches.length;
-      showToast(`⭐ Супермэтч с ${profiles[index].name}!`);
+      showMatch(profiles[index].name);
       swipe('left');
     });
     
-    document.getElementById('buyBtn').addEventListener('click', () => {
+    document.getElementById('membershipBtn').addEventListener('click', () => {
       elite = true;
       document.getElementById('planBadge').textContent = 'Элита';
       document.getElementById('likesLeft').textContent = '∞';
       showToast('🎉 Добро пожаловать в Элиту!');
     });
     
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+    
+    function showMatch(name) {
+      document.getElementById('matchName').textContent = `Вы и ${name} понравились друг другу!`;
+      document.getElementById('matchModal').classList.add('show');
+    }
+    
+    function closeMatch() {
+      document.getElementById('matchModal').classList.remove('show');
+    }
+    
+    // === INIT ===
     render();
   </script>
 </body>
