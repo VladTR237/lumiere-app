@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIOLET CROWN — Профиль</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, sans-serif; background: #08070d; color: #f5f0ff; min-height: 100vh; padding: 20px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 24px; color: #bb8cff; letter-spacing: 6px; text-align: center; margin: 30px 0; }
+    nav { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+    nav a { color: #b5aacb; text-decoration: none; padding: 12px 20px; border: 1px solid rgba(185,154,255,0.22); border-radius: 30px; }
+    nav a.active { background: #7d44e6; color: #130a20; border-color: #7d44e6; }
+    .card { background: rgba(18,14,30,0.9); border: 1px solid rgba(185,154,255,0.22); border-radius: 20px; padding: 30px; max-width: 500px; margin: 0 auto; text-align: center; }
+    h1 { font-family: 'Playfair Display', serif; font-size: 22px; margin: 15px 0; }
+    .avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg,#7d44e6,#bb8cff); margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: #130a20; font-weight: 600; }
+    .status { color: #bb8cff; font-size: 12px; letter-spacing: 2px; }
+    .invite-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(185,154,255,0.22); border-radius: 12px; padding: 15px; margin: 20px 0; }
+    .invite-code { font-size: 20px; letter-spacing: 4px; color: #bb8cff; font-family: 'Playfair Display', serif; }
+    .btn { background: #7d44e6; color: #130a20; padding: 14px 24px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; margin: 10px 5px; }
+    .btn-outline { background: transparent; border: 1px solid rgba(185,154,255,0.22); color: #f5f0ff; }
+  </style>
+</head>
+<body>
+  <div class="logo">VIOLET CROWN</div>
+  <nav>
+    <a href="index.html">Главная</a>
+    <a href="invite.html">Вход</a>
+    <a href="apply.html">Заявка</a>
+    <a href="members.html">Участники</a>
+    <a href="profile.html" class="active">Профиль</a>
+  </nav>
+  <div class="card">
+    <p class="kicker" style="color:#bb8cff;font-size:12px;letter-spacing:3px;">ЛИЧНЫЙ КАБИНЕТ</p>
+    <h1>Профиль резидента</h1>
+    <div class="avatar">А</div>
+    <h2 style="font-size:20px;">Александр</h2>
+    <p class="status">Резидент с 2024</p>
+    <div class="invite-box">
+      <p style="color:#b5aacb;font-size:12px;margin-bottom:8px;">Ваш код приглашения</p>
+      <p class="invite-code">VC-2026</p>
+    </div>
+    <p style="color:#b5aacb;font-size:13px;margin:15px 0;">Следующее списание: —</p>
+    <button class="btn">Активировать взнос</button>
+    <br><br>
+    <button class="btn btn-outline" onclick="window.location.href='index.html'">Выйти</button>
+  </div>
+</body>
+</html>
