@@ -13,8 +13,11 @@
       --gold-dark: #9a7d3e;
       --bg: #08080a;
       --card: #121214;
+      --card-light: #1a1a1c;
       --text: #f0f0f0;
-      --muted: #666;
+      --text-muted: #666;
+      --danger: #ff5555;
+      --success: #44c768;
     }
     
     body {
@@ -22,219 +25,42 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
     }
     
-    .screen { display: none; height: 100vh; width: 100%; position: relative; }
-    .screen.active { display: flex; flex-direction: column; }
-    
     /* === ANIMATED BACKGROUND === */
-    .bg-animated {
+    .bg {
       position: fixed;
       inset: 0;
       z-index: 0;
-      overflow: hidden;
-      background: radial-gradient(ellipse at 20% 20%, rgba(201,169,98,0.08) 0%, transparent 50%),
-                  radial-gradient(ellipse at 80% 80%, rgba(201,169,98,0.05) 0%, transparent 50%),
+      background: radial-gradient(ellipse at 20% 20%, rgba(201,169,98,0.06) 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 80%, rgba(201,169,98,0.04) 0%, transparent 50%),
                   var(--bg);
+      overflow: hidden;
     }
     
     .orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.3;
-      animation: orbMove 20s ease-in-out infinite;
+      filter: blur(80px);
+      opacity: 0.25;
+      animation: orbFloat 25s ease-in-out infinite;
     }
     
-    .orb-1 {
-      width: 400px;
-      height: 400px;
-      background: var(--gold);
-      top: -100px;
-      left: -100px;
-      animation-delay: 0s;
+    .orb-1 { width: 350px; height: 350px; background: var(--gold); top: -80px; left: -80px; }
+    .orb-2 { width: 250px; height: 250px; background: var(--gold-dark); bottom: -40px; right: -40px; animation-delay: -12s; }
+    
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0); }
+      33% { transform: translate(40px, -40px); }
+      66% { transform: translate(-30px, 30px); }
     }
     
-    .orb-2 {
-      width: 300px;
-      height: 300px;
-      background: var(--gold-dark);
-      bottom: -50px;
-      right: -50px;
-      animation-delay: -10s;
-    }
+    /* === SCREENS === */
+    .screen { display: none; min-height: 100vh; width: 100%; position: relative; z-index: 10; }
+    .screen.active { display: flex; flex-direction: column; }
     
-    .orb-3 {
-      width: 200px;
-      height: 200px;
-      background: var(--gold);
-      top: 50%;
-      right: 20%;
-      animation-delay: -5s;
-    }
-    
-    @keyframes orbMove {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      25% { transform: translate(30px, -30px) scale(1.1); }
-      50% { transform: translate(-20px, 20px) scale(0.9); }
-      75% { transform: translate(20px, 30px) scale(1.05); }
-    }
-    
-    /* Particles */
-    .particles {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-    }
-    
-    .particle {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      background: var(--gold);
-      border-radius: 50%;
-      animation: particleFloat 15s linear infinite;
-    }
-    
-    @keyframes particleFloat {
-      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-    }
-    
-    /* === AUTH SCREEN === */
-    .auth-screen {
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      position: relative;
-      z-index: 10;
-    }
-    
-    .logo-reg {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(36px, 11vw, 52px);
-      font-weight: 600;
-      color: var(--gold);
-      letter-spacing: 8px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 50px rgba(201,169,98,0.5);
-      animation: logoGlow 3s ease-in-out infinite alternate;
-    }
-    
-    @keyframes logoGlow {
-      from { text-shadow: 0 0 30px rgba(201,169,98,0.4); }
-      to { text-shadow: 0 0 60px rgba(201,169,98,0.7); }
-    }
-    
-    .tagline {
-      color: var(--muted);
-      font-size: clamp(10px, 3vw, 13px);
-      margin-bottom: clamp(35px, 10vw, 60px);
-      letter-spacing: 4px;
-    }
-    
-    .auth-form {
-      width: 100%;
-      max-width: 340px;
-      background: rgba(18,18,20,0.85);
-      backdrop-filter: blur(25px);
-      border: 1px solid rgba(201,169,98,0.15);
-      border-radius: 24px;
-      padding: 30px;
-      animation: formSlide 0.6s ease;
-    }
-    
-    @keyframes formSlide {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .tabs {
-      display: flex;
-      margin-bottom: 25px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    
-    .tab {
-      flex: 1;
-      padding: 12px;
-      text-align: center;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 14px;
-      border-bottom: 2px solid transparent;
-      transition: all 0.3s;
-    }
-    
-    .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
-    .tab:hover { color: var(--text); }
-    
-    .form-title {
-      font-family: 'Cinzel', serif;
-      font-size: 17px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    
-    .input {
-      width: 100%;
-      padding: 16px 18px;
-      margin-bottom: 12px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      color: var(--text);
-      font-size: 15px;
-      font-family: inherit;
-      transition: all 0.3s;
-    }
-    
-    .input:focus {
-      outline: none;
-      border-color: var(--gold);
-      background: rgba(201,169,98,0.06);
-    }
-    
-    .input::placeholder { color: #555; }
-    
-    .btn-primary {
-      width: 100%;
-      padding: 17px;
-      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-      border: none;
-      border-radius: 14px;
-      color: #08080a;
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: all 0.3s;
-    }
-    
-    .btn-primary:active { transform: scale(0.97); }
-    
-    .btn-secondary {
-      width: 100%;
-      padding: 14px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      color: var(--muted);
-      font-size: 13px;
-      cursor: pointer;
-      margin-top: 12px;
-      transition: all 0.3s;
-    }
-    
-    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
-    
-    /* === MAIN SCREEN === */
+    /* === HEADER === */
     .header {
       display: flex;
       justify-content: space-between;
@@ -248,284 +74,141 @@
       z-index: 100;
     }
     
-    .logo {
-      font-family: 'Cinzel', serif;
-      font-size: 18px;
-      color: var(--gold);
-      letter-spacing: 3px;
-    }
+    .logo { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold); letter-spacing: 3px; }
+    .logo-lg { font-family: 'Cinzel', serif; font-size: 38px; color: var(--gold); letter-spacing: 6px; text-align: center; animation: logoGlow 3s ease-in-out infinite alternate; }
     
-    .user-info { display: flex; align-items: center; gap: 10px; }
+    @keyframes logoGlow { from { text-shadow: 0 0 30px rgba(201,169,98,0.4); } to { text-shadow: 0 0 50px rgba(201,169,98,0.7); } }
     
-    .user-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #08080a;
-      font-weight: 600;
-      font-size: 14px;
-    }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--gold-dark), var(--gold)); display: flex; align-items: center; justify-content: center; color: var(--bg); font-weight: 600; font-size: 14px; cursor: pointer; }
+    .badge { padding: 5px 12px; background: rgba(201,169,98,0.12); border: 1px solid var(--gold); border-radius: 20px; font-size: 10px; color: var(--gold); }
+    .badge.elite { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: var(--bg); }
     
-    .status-badge {
-      padding: 5px 12px;
-      background: rgba(201,169,98,0.12);
-      border: 1px solid var(--gold);
-      border-radius: 20px;
-      font-size: 10px;
-      color: var(--gold);
-    }
+    /* === AUTH === */
+    .auth-screen { align-items: center; justify-content: center; padding: 20px; }
+    .tagline { color: var(--text-muted); font-size: 12px; letter-spacing: 4px; margin-bottom: 40px; text-align: center; }
     
-    .content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 15px 170px;
-      position: relative;
-      z-index: 10;
-    }
+    .auth-form { width: 100%; max-width: 340px; background: rgba(18,18,20,0.85); backdrop-filter: blur(25px); border: 1px solid rgba(201,169,98,0.1); border-radius: 24px; padding: 30px; animation: slideUp 0.5s ease; }
     
-    /* === 3D CARD === */
-    .card-container {
-      perspective: 1200px;
-      width: 90%;
-      max-width: 300px;
-      height: 430px;
-      cursor: grab;
-      touch-action: none;
-    }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     
-    .card {
-      width: 100%;
-      height: 100%;
-      background: var(--card);
-      border-radius: 24px;
-      overflow: hidden;
-      border: 1px solid rgba(201,169,98,0.15);
-      box-shadow: 0 30px 100px rgba(0,0,0,0.7), 0 0 1px rgba(201,169,98,0.2);
-      transform-style: preserve-3d;
-      transition: transform 0.15s ease-out;
-      position: relative;
-    }
+    .tabs { display: flex; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .tab { flex: 1; padding: 12px; text-align: center; color: var(--text-muted); cursor: pointer; font-size: 14px; border-bottom: 2px solid transparent; transition: all 0.3s; }
+    .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
     
-    .card.swiping {
-      transition: none;
-    }
+    .form-title { font-family: 'Cinzel', serif; font-size: 17px; text-align: center; margin-bottom: 20px; }
+    .input { width: 100%; padding: 15px 18px; margin-bottom: 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: var(--text); font-size: 14px; font-family: inherit; transition: all 0.3s; }
+    .input:focus { outline: none; border-color: var(--gold); background: rgba(201,169,98,0.05); }
+    .input::placeholder { color: #555; }
     
-    .card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 24px;
-      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%);
-      z-index: 2;
-      pointer-events: none;
-    }
+    .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; }
+    .btn-primary { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: var(--bg); }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-secondary { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); margin-top: 12px; }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
     
-    .card-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      inset: 0;
-    }
+    /* === MAIN CONTENT === */
+    .content { flex: 1; padding: 85px 15px 160px; display: flex; flex-direction: column; align-items: center; }
     
-    .card-info {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 24px;
-      z-index: 3;
-    }
-    
-    .card-name {
-      font-family: 'Cinzel', serif;
-      font-size: 26px;
-      font-weight: 500;
-      margin-bottom: 4px;
-      text-shadow: 0 2px 15px rgba(0,0,0,0.9);
-    }
-    
-    .card-city {
-      color: rgba(255,255,255,0.7);
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-    
-    .card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-    
-    .card-tag {
-      padding: 5px 12px;
-      background: rgba(201,169,98,0.15);
-      border: 1px solid rgba(201,169,98,0.25);
-      border-radius: 15px;
-      font-size: 11px;
-      color: var(--gold);
-    }
-    
-    /* === STATS === */
-    .stats { display: flex; gap: 35px; margin-bottom: 25px; }
+    .stats { display: flex; gap: 30px; margin-bottom: 20px; }
     .stat { text-align: center; }
-    .stat-value { font-size: 26px; color: var(--gold); font-weight: 600; }
-    .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+    .stat-value { font-size: 24px; color: var(--gold); font-weight: 600; }
+    .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+    
+    /* === CARD === */
+    .card-wrap { perspective: 1200px; width: 90%; max-width: 300px; height: 420px; cursor: grab; touch-action: none; }
+    .card { width: 100%; height: 100%; background: var(--card); border-radius: 24px; overflow: hidden; border: 1px solid rgba(201,169,98,0.15); box-shadow: 0 30px 100px rgba(0,0,0,0.7); transform-style: preserve-3d; transition: transform 0.15s ease-out; position: relative; }
+    .card::before { content: ''; position: absolute; inset: 0; border-radius: 24px; background: linear-gradient(180deg, transparent 35%, rgba(0,0,0,0.85) 100%); z-index: 2; pointer-events: none; }
+    .card-img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .card-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px; z-index: 3; }
+    .card-name { font-family: 'Cinzel', serif; font-size: 26px; font-weight: 500; margin-bottom: 4px; text-shadow: 0 2px 15px rgba(0,0,0,0.9); }
+    .card-city { color: rgba(255,255,255,0.7); font-size: 14px; margin-bottom: 10px; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .card-tag { padding: 5px 12px; background: rgba(201,169,98,0.15); border: 1px solid rgba(201,169,98,0.25); border-radius: 15px; font-size: 11px; color: var(--gold); }
     
     /* === ACTIONS === */
-    .actions {
-      position: fixed;
-      bottom: 25px;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      padding: 0 20px;
-      z-index: 100;
-    }
-    
-    .btn-action {
-      width: clamp(60px, 16vw, 70px);
-      height: clamp(60px, 16vw, 70px);
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.1);
-      background: rgba(18,18,20,0.9);
-      backdrop-filter: blur(15px);
-      color: var(--text);
-      font-size: clamp(20px, 5vw, 26px);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    
-    .btn-action:active { transform: scale(0.9); }
-    
-    .btn-action.like {
-      width: clamp(70px, 19vw, 80px);
-      height: clamp(70px, 19vw, 80px);
-      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-      border-color: var(--gold);
-      color: #08080a;
-      font-size: clamp(24px, 6vw, 30px);
-      box-shadow: 0 10px 40px rgba(201,169,98,0.45);
-    }
-    
-    .btn-action.liked {
-      animation: likePop 0.4s ease;
-    }
-    
-    @keyframes likePop {
-      0% { transform: scale(1); }
-      40% { transform: scale(1.25); }
-      100% { transform: scale(1); }
-    }
-    
-    .btn-action.super { color: #55b3ff; border-color: rgba(85,179,255,0.3); }
-    .btn-action.skip:active { border-color: #ff5555; color: #ff5555; }
+    .actions { position: fixed; bottom: 25px; left: 0; right: 0; display: flex; justify-content: center; gap: 18px; padding: 0 20px; z-index: 100; }
+    .action-btn { width: clamp(58px, 16vw, 68px); height: clamp(58px, 16vw, 68px); border-radius: 50%; border: 2px solid rgba(255,255,255,0.1); background: rgba(18,18,20,0.9); backdrop-filter: blur(15px); color: var(--text); font-size: clamp(18px, 5vw, 24px); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .action-btn:active { transform: scale(0.9); }
+    .action-btn.like { width: clamp(68px, 19vw, 78px); height: clamp(68px, 19vw, 78px); background: linear-gradient(135deg, var(--gold-dark), var(--gold)); border-color: var(--gold); color: var(--bg); font-size: clamp(22px, 6vw, 28px); box-shadow: 0 10px 40px rgba(201,169,98,0.45); }
+    .action-btn.liked { animation: pop 0.4s ease; }
+    @keyframes pop { 0%{transform:scale(1)} 40%{transform:scale(1.25)} 100%{transform:scale(1)} }
+    .action-btn.super { color: #55b3ff; border-color: rgba(85,179,255,0.3); }
+    .action-btn.skip:active { border-color: var(--danger); color: var(--danger); }
     
     /* === MEMBERSHIP BTN === */
-    .membership-btn {
-      position: fixed;
-      bottom: 115px;
-      right: 15px;
-      background: rgba(18,18,20,0.9);
-      backdrop-filter: blur(15px);
-      border: 1px solid var(--gold);
-      border-radius: 25px;
-      padding: 12px 18px;
-      color: var(--gold);
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      cursor: pointer;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      transition: all 0.3s;
-    }
+    .membership-btn { position: fixed; bottom: 110px; right: 15px; background: rgba(18,18,20,0.9); backdrop-filter: blur(15px); border: 1px solid var(--gold); border-radius: 25px; padding: 11px 16px; color: var(--gold); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; z-index: 50; }
+    .membership-btn::before { content: '★'; margin-right: 5px; }
     
-    .membership-btn:active { transform: scale(0.95); }
-    .membership-btn::before { content: '★'; font-size: 11px; }
+    /* === PROFILE SCREEN === */
+    .profile-screen { padding: 70px 20px 30px; }
+    .profile-header { text-align: center; margin-bottom: 30px; }
+    .profile-avatar-lg { width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, var(--gold-dark), var(--gold)); margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; color: var(--bg); font-size: 36px; font-weight: 600; }
+    .profile-name-lg { font-family: 'Cinzel', serif; font-size: 24px; margin-bottom: 5px; }
+    .profile-city-lg { color: var(--text-muted); font-size: 14px; margin-bottom: 15px; }
     
-    /* === TOAST === */
-    .toast {
-      position: fixed;
-      top: 85px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-20px);
-      background: var(--card);
-      border: 1px solid var(--gold);
-      padding: 14px 26px;
-      border-radius: 14px;
-      font-size: 14px;
-      z-index: 200;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+    .photos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 25px; }
+    .photo-frame { aspect-ratio: 1; background: var(--card-light); border-radius: 12px; overflow: hidden; position: relative; }
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-add { border: 2px dashed rgba(201,169,98,0.3); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 24px; cursor: pointer; }
     
+    .section { background: var(--card); border-radius: 16px; padding: 20px; margin-bottom: 15px; }
+    .section-title { font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }
+    
+    .edit-input { width: 100%; padding: 14px; background: var(--card-light); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: var(--text); font-size: 14px; font-family: inherit; margin-bottom: 10px; }
+    .edit-input:focus { border-color: var(--gold); outline: none; }
+    
+    textarea.edit-input { min-height: 100px; resize: none; }
+    
+    /* === MATCHES SCREEN === */
+    .matches-screen { padding: 70px 15px 20px; }
+    .matches-list { display: flex; flex-direction: column; gap: 10px; }
+    .match-item { display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--card); border-radius: 16px; }
+    .match-avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; }
+    .match-info { flex: 1; }
+    .match-name { font-weight: 500; margin-bottom: 3px; }
+    .match-msg { color: var(--text-muted); font-size: 13px; }
+    .match-time { color: var(--text-muted); font-size: 11px; }
+    
+    /* === MODALS === */
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; z-index: 300; padding: 20px; }
+    .modal.show { display: flex; }
+    .modal-content { background: var(--card); border: 1px solid rgba(201,169,98,0.2); border-radius: 24px; padding: 30px; width: 100%; max-width: 360px; text-align: center; animation: modalIn 0.3s ease; }
+    @keyframes modalIn { from{opacity:0;transform:scale(0.9)} to{opacity:1;transform:scale(1)} }
+    
+    .modal h3 { font-family: 'Cinzel', serif; font-size: 20px; margin-bottom: 10px; }
+    .modal p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+    .price-lg { font-size: 36px; font-weight: 600; color: var(--gold); margin: 15px 0; }
+    .price-lg span { font-size: 16px; color: var(--text-muted); }
+    
+    .toast { position: fixed; top: 85px; left: 50%; transform: translateX(-50%) translateY(-20px); background: var(--card); border: 1px solid var(--gold); padding: 14px 26px; border-radius: 14px; font-size: 14px; z-index: 200; opacity: 0; pointer-events: none; transition: all 0.35s; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     
-    /* === MATCH MODAL === */
-    .match-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 300;
-      flex-direction: column;
-      animation: fadeIn 0.4s ease;
-    }
+    /* === NAV === */
+    .nav { position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: rgba(18,18,20,0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.05); z-index: 100; }
+    .nav-item { flex: 1; padding: 15px; text-align: center; color: var(--text-muted); font-size: 20px; cursor: pointer; transition: all 0.3s; }
+    .nav-item.active { color: var(--gold); }
+    .nav-item:active { transform: scale(0.9); }
     
-    .match-modal.show { display: flex; }
+    /* === EMPTY STATE === */
+    .empty { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+    .empty-icon { font-size: 48px; margin-bottom: 15px; opacity: 0.5; }
     
-    .match-modal h2 {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(32px, 10vw, 48px);
-      color: var(--gold);
-      margin-bottom: 12px;
-      animation: matchPulse 1.2s ease infinite;
-    }
-    
-    @keyframes matchPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-    }
-    
-    .match-modal p { color: var(--muted); margin-bottom: 35px; }
-    .match-modal .btn-primary { max-width: 220px; }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    /* === PAYMENT === */
+    .payment-methods { display: flex; gap: 10px; margin: 20px 0; }
+    .payment-method { flex: 1; padding: 15px; background: var(--card-light); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; font-size: 12px; text-align: center; cursor: pointer; transition: all 0.3s; }
+    .payment-method.selected { border-color: var(--gold); background: rgba(201,169,98,0.1); }
   </style>
 </head>
 <body>
-  <!-- АНИМИРОВАННЫЙ ФОН -->
-  <div class="bg-animated">
+  <div class="bg">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
   </div>
   
-  <!-- ЧАСТИЦЫ -->
-  <div class="particles" id="particles"></div>
-  
-  <!-- ЭКРАН АВТОРИЗАЦИИ -->
+  <!-- AUTH SCREEN -->
   <div class="screen auth-screen active" id="authScreen">
-    <div class="logo-reg">LUMIÈRE</div>
+    <div class="logo-lg">LUMIÈRE</div>
     <p class="tagline">ЭЛИТНЫЕ ЗНАКОМСТВА</p>
     
     <div class="tabs">
@@ -535,28 +218,30 @@
     
     <form class="auth-form" id="loginForm">
       <p class="form-title">С возвращением</p>
-      <input type="email" class="input" placeholder="Email" required>
-      <input type="password" class="input" placeholder="Пароль" required>
-      <button type="submit" class="btn-primary">Войти</button>
-      <button type="button" class="btn-secondary" onclick="showApp()">Пропустить</button>
+      <input type="email" class="input" placeholder="Email" id="loginEmail" required>
+      <input type="password" class="input" placeholder="Пароль" id="loginPass" required>
+      <button type="submit" class="btn btn-primary">Войти</button>
+      <button type="button" class="btn btn-secondary" onclick="skipAuth()">Пропустить</button>
     </form>
     
     <form class="auth-form" id="registerForm" style="display:none;">
       <p class="form-title">Создать аккаунт</p>
-      <input type="text" class="input" placeholder="Ваше имя" required>
-      <input type="email" class="input" placeholder="Email" required>
-      <input type="password" class="input" placeholder="Пароль" required>
-      <button type="submit" class="btn-primary">Зарегистрироваться</button>
+      <input type="text" class="input" placeholder="Ваше имя" id="regName" required>
+      <input type="email" class="input" placeholder="Email" id="regEmail" required>
+      <input type="password" class="input" placeholder="Пароль" id="regPass" required>
+      <input type="number" class="input" placeholder="Возраст" id="regAge" required min="18" max="99">
+      <input type="text" class="input" placeholder="Город" id="regCity" required>
+      <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
     </form>
   </div>
   
-  <!-- ГЛАВНЫЙ ЭКРАН -->
-  <div class="screen main-screen" id="mainScreen">
+  <!-- MAIN SCREEN -->
+  <div class="screen" id="mainScreen">
     <header class="header">
       <div class="logo">LUMIÈRE</div>
-      <div class="user-info">
-        <span class="status-badge" id="planBadge">Member</span>
-        <div class="user-avatar" id="userAvatar">?</div>
+      <div class="header-right">
+        <span class="badge" id="planBadge">Member</span>
+        <div class="avatar" id="headerAvatar" onclick="showScreen('profile')">?</div>
       </div>
     </header>
     
@@ -572,10 +257,10 @@
         </div>
       </div>
       
-      <div class="card-container" id="cardContainer">
+      <div class="card-wrap" id="cardWrap">
         <div class="card" id="card">
-          <img class="card-img" id="cardImg" src="" alt="Фото">
-          <div class="card-info">
+          <img class="card-img" id="cardImg" src="" alt="">
+          <div class="card-content">
             <h2 class="card-name" id="cardName">Принцесса Алина</h2>
             <p class="card-city" id="cardCity">Москва, 26</p>
             <div class="card-tags" id="cardTags"></div>
@@ -584,129 +269,179 @@
       </div>
     </div>
     
-    <button class="membership-btn" id="membershipBtn">Элита</button>
+    <button class="membership-btn" onclick="showModal('membership')">Элита</button>
     
     <div class="actions">
-      <button class="btn-action skip" id="skipBtn">✕</button>
-      <button class="btn-action like" id="likeBtn">♥</button>
-      <button class="btn-action super" id="superBtn">★</button>
+      <button class="action-btn skip" id="skipBtn" onclick="swipe('left')">✕</button>
+      <button class="action-btn like" id="likeBtn" onclick="handleLike()">♥</button>
+      <button class="action-btn super" id="superBtn" onclick="handleSuperLike()">★</button>
+    </div>
+    
+    <nav class="nav">
+      <div class="nav-item active" onclick="showScreen('main')">♥</div>
+      <div class="nav-item" onclick="showScreen('matches')">💬</div>
+      <div class="nav-item" onclick="showModal('membership')">★</div>
+      <div class="nav-item" onclick="showScreen('profile')">👤</div>
+    </nav>
+  </div>
+  
+  <!-- MATCHES SCREEN -->
+  <div class="screen" id="matchesScreen">
+    <header class="header">
+      <div class="logo">МЭТЧИ</div>
+      <div class="header-right">
+        <div class="avatar" onclick="showScreen('profile')">?</div>
+      </div>
+    </header>
+    <div class="matches-screen">
+      <div class="matches-list" id="matchesList">
+        <div class="empty">
+          <div class="empty-icon">💫</div>
+          <p>Пока нет мэтчей</p>
+          <p style="font-size:12px;margin-top:8px">Ставьте лайки, чтобы найти совпадения</p>
+        </div>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="nav-item" onclick="showScreen('main')">♥</div>
+      <div class="nav-item active" onclick="showScreen('matches')">💬</div>
+      <div class="nav-item" onclick="showModal('membership')">★</div>
+      <div class="nav-item" onclick="showScreen('profile')">👤</div>
+    </nav>
+  </div>
+  
+  <!-- PROFILE SCREEN -->
+  <div class="screen" id="profileScreen">
+    <header class="header">
+      <div class="logo">ПРОФИЛЬ</div>
+      <div class="header-right">
+        <button class="btn-secondary" style="width:auto;padding:8px 15px;font-size:11px;" onclick="logout()">Выход</button>
+      </div>
+    </header>
+    
+    <div class="profile-screen">
+      <div class="profile-header">
+        <div class="profile-avatar-lg" id="profileAvatar">А</div>
+        <h2 class="profile-name-lg" id="profileName">Имя</h2>
+        <p class="profile-city-lg" id="profileCity">Город, возраст</p>
+      </div>
+      
+      <div class="section">
+        <p class="section-title">Мои фото</p>
+        <div class="photos-grid" id="photosGrid">
+          <div class="photo-frame photo-add" onclick="addPhoto()">+</div>
+        </div>
+      </div>
+      
+      <div class="section">
+        <p class="section-title">О себе</p>
+        <textarea class="edit-input" id="profileBio" placeholder="Расскажите о себе..."></textarea>
+      </div>
+      
+      <div class="section">
+        <p class="section-title">Интересы</p>
+        <input type="text" class="edit-input" id="profileTags" placeholder="Музыка, путешествия, спорт">
+      </div>
+      
+      <button class="btn btn-primary" onclick="saveProfile()">Сохранить</button>
+    </div>
+  </div>
+  
+  <!-- MEMBERSHIP MODAL -->
+  <div class="modal" id="membershipModal">
+    <div class="modal-content">
+      <span class="badge elite" style="display:inline-block;margin-bottom:10px;">LUMIÈRE ELITE</span>
+      <h3>Стать Элитой</h3>
+      <p>Безлимитные лайки, суперлайки, просмотр кто лайкнул, VIP-поддержка</p>
+      
+      <div class="payment-methods">
+        <div class="payment-method selected" onclick="selectPlan('monthly')">
+          <p style="font-weight:600;color:var(--gold)">Месяц</p>
+          <p style="font-size:18px;font-weight:600">99₽</p>
+        </div>
+        <div class="payment-method" onclick="selectPlan('yearly')">
+          <p style="font-weight:600;color:var(--gold)">Год</p>
+          <p style="font-size:18px;font-weight:600">799₽</p>
+        </div>
+        <div class="payment-method" onclick="selectPlan('lifetime')">
+          <p style="font-weight:600;color:var(--gold)">Навсегда</p>
+          <p style="font-size:18px;font-weight:600">1999₽</p>
+        </div>
+      </div>
+      
+      <p class="price-lg" id="priceDisplay">99₽<span>/мес</span></p>
+      
+      <button class="btn btn-primary" onclick="processPayment()">Оплатить</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Закрыть</button>
     </div>
   </div>
   
   <!-- MATCH MODAL -->
-  <div class="match-modal" id="matchModal">
-    <h2>✨ МЭТЧ!</h2>
-    <p id="matchName">Вы понравились друг другу!</p>
-    <button class="btn-primary" onclick="closeMatch()">Продолжить</button>
+  <div class="modal" id="matchModal">
+    <div class="modal-content">
+      <h2 style="font-family:'Cinzel',serif;font-size:36px;color:var(--gold);margin-bottom:15px;">✨ МЭТЧ!</h2>
+      <p id="matchText">Вы понравились друг другу!</p>
+      <button class="btn btn-primary" onclick="closeModal()">Написать</button>
+    </div>
   </div>
   
   <div class="toast" id="toast"></div>
 
   <script>
-    // === CREATE PARTICLES ===
-    const particlesContainer = document.getElementById('particles');
-    for (let i = 0; i < 25; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      p.style.left = Math.random() * 100 + '%';
-      p.style.animationDelay = Math.random() * 15 + 's';
-      p.style.animationDuration = (12 + Math.random() * 8) + 's';
-      p.style.width = (2 + Math.random() * 3) + 'px';
-      p.style.height = p.style.width;
-      particlesContainer.appendChild(p);
-    }
+    // === DATA STORAGE (LOCALSTORAGE) ===
+    const STORAGE_KEY = 'lumiere_app';
     
-    // === PROFILES ===
-    const profiles = [
-      { name: "Принцесса Алина", age: 26, city: "Москва", tags: ["Культура", "Путешествия"], img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80" },
-      { name: "Граф Егор", age: 29, city: "Санкт-Петербург", tags: ["Бизнес", "Искусство"], img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80" },
-      { name: "Маркиза София", age: 24, city: "Казань", tags: ["Искусство", "Галерея"], img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&q=80" },
-      { name: "Барон Максим", age: 31, city: "Екатеринбург", tags: ["IT", "Путешествия"], img: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=800&q=80" },
-      { name: "Герцогиня Полина", age: 27, city: "Новосибирск", tags: ["Бизнес", "Карьера"], img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80" },
-      { name: "Виконт Данил", age: 28, city: "Краснодар", tags: ["Вино", "Спорт"], img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80" },
-      { name: "Графиня Мария", age: 30, city: "Нижний Новгород", tags: ["Архитектура", "Искусство"], img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80" },
-      { name: "Лорд Илья", age: 25, city: "Ростов-на-Дону", tags: ["Инвестиции", "Хайкинг"], img: "https://images.unsplash.com/photo-1504593811423-6dd665756598?w=800&q=80" }
+    // Default profiles (for demo)
+    const defaultProfiles = [
+      { id: 1, name: "Алина", age: 26, city: "Москва", bio: "Выпускница Сорбонны, увлекаюсь благотворительностью", tags: ["Культура", "Путешествия"], photos: ["https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80"] },
+      { id: 2, name: "Егор", age: 29, city: "Санкт-Петербург", bio: "Предприниматель, коллекционирую винтажные часы", tags: ["Бизнес", "Искусство"], photos: ["https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80"] },
+      { id: 3, name: "София", age: 24, city: "Казань", bio: "Художница, представлена в галерее", tags: ["Искусство", "Галерея"], photos: ["https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&q=80"] },
+      { id: 4, name: "Максим", age: 31, city: "Е��атеринбург", bio: "Основатель IT-стартапа, люблю путешествия", tags: ["IT", "Путешествия"], photos: ["https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=800&q=80"] },
+      { id: 5, name: "Полина", age: 27, city: "Новосибирск", bio: "CEO рекламного агентства, амбициозна", tags: ["Бизнес", "Карьера"], photos: ["https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80"] },
+      { id: 6, name: "Данил", age: 28, city: "Краснодар", bio: "Виноторговец, сноуборд", tags: ["Вино", "Спорт"], photos: ["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80"] },
+      { id: 7, name: "Мария", age: 30, city: "Нижний Новгород", bio: "Архитектор, ценю искусство", tags: ["Архитектура", "Искусство"], photos: ["https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80"] },
+      { id: 8, name: "Илья", age: 25, city: "Ростов-на-Дону", bio: "Инвестор, люблю горы", tags: ["Инвестиции", "Хайкинг"], photos: ["https://images.unsplash.com/photo-1504593811423-6dd665756598?w=800&q=80"] }
     ];
     
-    let index = 0;
-    let likes = 5;
-    let matches = [];
-    let elite = false;
-    let userName = 'Пользователь';
-    let isAnimating = false;
-    let isDragging = false;
-    let startX = 0, startY = 0;
-    let currentX = 0, currentY = 0;
+    // App state
+    let appData = {
+      currentUser: null,
+      profiles: [...defaultProfiles],
+      currentProfileIndex: 0,
+      likesRemaining: 5,
+      isPremium: false,
+      premiumPlan: null,
+      matches: [],
+      liked: [],
+      skipped: []
+    };
     
-    // === CARD 3D DRAG ===
-    const card = document.getElementById('card');
-    const cardContainer = document.getElementById('cardContainer');
-    
-    function updateCardTransform() {
-      const rotateY = currentX * 0.08;
-      const rotateX = -currentY * 0.08;
-      const translateX = currentX;
-      card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateX(${translateX}px)`;
+    // Load data
+    function loadData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        appData = { ...appData, ...parsed };
+      }
+      // Always reset profiles to defaults for demo
+      appData.profiles = [...defaultProfiles];
+      appData.currentProfileIndex = 0;
     }
     
-    cardContainer.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-      startY = e.clientY;
-      card.classList.remove('swiping');
-    });
-    
-    cardContainer.addEventListener('touchstart', (e) => {
-      isDragging = true;
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-      card.classList.remove('swiping');
-    }, { passive: true });
-    
-    document.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      currentX = e.clientX - startX;
-      currentY = e.clientY - startY;
-      updateCardTransform();
-    });
-    
-    document.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      currentX = e.touches[0].clientX - startX;
-      currentY = e.touches[0].clientY - startY;
-      updateCardTransform();
-    }, { passive: true });
-    
-    document.addEventListener('mouseup', () => {
-      if (Math.abs(currentX) > 80) {
-        swipe(currentX > 0 ? 'right' : 'left');
-      } else {
-        resetCard();
-      }
-      isDragging = false;
-    });
-    
-    document.addEventListener('touchend', () => {
-      if (Math.abs(currentX) > 80) {
-        swipe(currentX > 0 ? 'right' : 'left');
-      } else {
-        resetCard();
-      }
-      isDragging = false;
-    });
-    
-    function resetCard() {
-      card.classList.add('swiping');
-      currentX = 0;
-      currentY = 0;
-      card.style.transition = 'transform 0.3s ease';
-      updateCardTransform();
-      setTimeout(() => {
-        card.style.transition = 'transform 0.15s ease-out';
-      }, 300);
+    // Save data
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        currentUser: appData.currentUser,
+        likesRemaining: appData.likesRemaining,
+        isPremium: appData.isPremium,
+        premiumPlan: appData.premiumPlan,
+        matches: appData.matches,
+        liked: appData.liked,
+        skipped: appData.skipped
+      }));
     }
     
-    // === TABS ===
+    // === TAB SWITCHING ===
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -719,111 +454,299 @@
     // === AUTH ===
     document.getElementById('loginForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      const email = e.target.querySelector('input[type="email"]').value;
-      userName = email.split('@')[0] || 'Пользователь';
-      document.getElementById('userAvatar').textContent = userName[0].toUpperCase();
-      showApp();
-      showToast('С возвращением, ' + userName + '!');
+      login(document.getElementById('loginEmail').value);
     });
     
     document.getElementById('registerForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = e.target.querySelector('input[type="text"]').value;
-      userName = name;
-      document.getElementById('userAvatar').textContent = name[0].toUpperCase();
+      const name = document.getElementById('regName').value;
+      const age = document.getElementById('regAge').value;
+      const city = document.getElementById('regCity').value;
+      register(name, age, city);
+    });
+    
+    function skipAuth() {
+      login('demo@example.com');
+    }
+    
+    function login(email) {
+      appData.currentUser = {
+        name: email.split('@')[0],
+        email: email,
+        age: 25,
+        city: 'Москва',
+        bio: '',
+        tags: [],
+        photos: ['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80']
+      };
+      saveData();
+      showApp();
+      showToast('С возвращением!');
+    }
+    
+    function register(name, age, city) {
+      appData.currentUser = {
+        name, age, city,
+        email: document.getElementById('regEmail').value,
+        bio: '',
+        tags: [],
+        photos: []
+      };
+      saveData();
       showApp();
       showToast('Добро пожаловать, ' + name + '!');
-    });
+    }
+    
+    function logout() {
+      appData.currentUser = null;
+      localStorage.removeItem(STORAGE_KEY);
+      showScreen('auth');
+    }
     
     function showApp() {
       document.getElementById('authScreen').classList.remove('active');
       document.getElementById('mainScreen').classList.add('active');
+      updateUI();
+      renderCard();
     }
     
-    // === RENDER ===
-    function render() {
-      const p = profiles[index];
-      document.getElementById('cardImg').src = p.img;
+    // === NAVIGATION ===
+    function showScreen(screen) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screen + 'Screen').classList.add('active');
+      updateNav();
+      if (screen === 'profile') renderProfile();
+      if (screen === 'matches') renderMatches();
+    }
+    
+    function updateNav() {
+      document.querySelectorAll('.nav-item').forEach((item, i) => {
+        item.classList.remove('active');
+      });
+    }
+    
+    function updateUI() {
+      const user = appData.currentUser;
+      if (user) {
+        document.getElementById('headerAvatar').textContent = user.name[0].toUpperCase();
+      }
+      document.getElementById('likesLeft').textContent = appData.isPremium ? '∞' : appData.likesRemaining;
+      document.getElementById('matchesCount').textContent = appData.matches.length;
+      
+      const badge = document.getElementById('planBadge');
+      if (appData.isPremium) {
+        badge.textContent = 'Элита';
+        badge.classList.add('elite');
+      } else {
+        badge.textContent = 'Member';
+        badge.classList.remove('elite');
+      }
+    }
+    
+    // === CARD ===
+    const card = document.getElementById('card');
+    let isDragging = false, startX = 0, currentX = 0;
+    
+    const cardWrap = document.getElementById('cardWrap');
+    cardWrap.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
+    cardWrap.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; }, {passive:true});
+    
+    document.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      currentX = e.clientX - startX;
+      card.style.transform = `perspective(1200px) rotateY(${currentX * 0.05}deg) translateX(${currentX}px)`;
+    });
+    document.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      currentX = e.touches[0].clientX - startX;
+      card.style.transform = `perspective(1200px) rotateY(${currentX * 0.05}deg) translateX(${currentX}px)`;
+    }, {passive:true});
+    
+    document.addEventListener('mouseup', () => { if (Math.abs(currentX) > 80) swipe(currentX > 0 ? 'right' : 'left'); else resetCard(); isDragging = false; });
+    document.addEventListener('touchend', () => { if (Math.abs(currentX) > 80) swipe(currentX > 0 ? 'right' : 'left'); else resetCard(); isDragging = false; });
+    
+    function resetCard() {
+      card.style.transition = 'transform 0.3s ease';
+      card.style.transform = 'perspective(1200px) rotateY(0deg) translateX(0px)';
+      currentX = 0;
+      setTimeout(() => card.style.transition = 'transform 0.15s ease-out', 300);
+    }
+    
+    function swipe(direction) {
+      card.style.transition = 'all 0.4s ease';
+      const x = direction === 'left' ? -500 : 500;
+      card.style.transform = `perspective(1200px) rotateY(${direction==='left'?-30:30}deg) translateX(${x}px)`;
+      card.style.opacity = '0';
+      
+      setTimeout(() => {
+        card.style.opacity = '';
+        nextCard();
+      }, 400);
+    }
+    
+    function nextCard() {
+      // Find next unviewed profile
+      do {
+        appData.currentProfileIndex = (appData.currentProfileIndex + 1) % appData.profiles.length;
+      } while (appData.liked.includes(appData.profiles[appData.currentProfileIndex].id) || 
+               appData.skipped.includes(appData.profiles[appData.currentProfileIndex].id));
+      
+      currentX = 0;
+      card.style.transition = 'none';
+      renderCard();
+      setTimeout(() => card.style.transition = 'transform 0.15s ease-out', 50);
+    }
+    
+    function renderCard() {
+      const p = appData.profiles[appData.currentProfileIndex];
+      if (!p) return;
+      document.getElementById('cardImg').src = p.photos[0];
       document.getElementById('cardName').textContent = p.name;
       document.getElementById('cardCity').textContent = `${p.city}, ${p.age}`;
       document.getElementById('cardTags').innerHTML = p.tags.map(t => `<span class="card-tag">${t}</span>`).join('');
     }
     
-    function next() {
-      index = (index + 1) % profiles.length;
-      currentX = 0;
-      currentY = 0;
-      render();
-      card.style.transition = 'none';
-      updateCardTransform();
-      setTimeout(() => {
-        card.style.transition = 'transform 0.15s ease-out';
-      }, 50);
-    }
-    
-    // === SWIPE ===
-    function swipe(direction) {
-      if (isAnimating) return;
-      isAnimating = true;
-      
-      const targetX = direction === 'left' ? -window.innerWidth * 1.5 : window.innerWidth * 1.5;
-      const targetRotate = direction === 'left' ? -45 : 45;
-      
-      card.classList.add('swiping');
-      card.style.transition = 'all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)';
-      card.style.transform = `perspective(1200px) rotateY(${targetRotate}deg) translateX(${targetX}px)`;
-      card.style.opacity = '0';
-      
-      setTimeout(() => {
-        card.style.opacity = '';
-        next();
-        isAnimating = false;
-      }, 400);
-    }
-    
     // === ACTIONS ===
-    document.getElementById('likeBtn').addEventListener('click', () => {
-      if (!elite && likes <= 0) {
-        showToast('Лимит исчерпан! Станьте Элитой');
+    function handleLike() {
+      if (!appData.isPremium && appData.likesRemaining <= 0) {
+        showModal('membership');
         return;
       }
-      if (!elite) likes--;
-      document.getElementById('likesLeft').textContent = elite ? '∞' : likes;
       
-      const btn = document.getElementById('likeBtn');
-      btn.classList.add('liked');
-      setTimeout(() => btn.classList.remove('liked'), 400);
+      const profile = appData.profiles[appData.currentProfileIndex];
+      appData.liked.push(profile.id);
+      if (!appData.isPremium) appData.likesRemaining--;
       
+      document.getElementById('likeBtn').classList.add('liked');
+      setTimeout(() => document.getElementById('likeBtn').classList.remove('liked'), 400);
+      
+      // Random match (50%)
       if (Math.random() > 0.5) {
-        matches.push(profiles[index]);
-        document.getElementById('matchesCount').textContent = matches.length;
-        setTimeout(() => showMatch(profiles[index].name), 300);
+        appData.matches.push({ ...profile, message: 'Новый мэтч!', time: new Date() });
+        document.getElementById('matchText').textContent = `Вы и ${profile.name} понравились друг другу!`;
+        showModal('match');
       } else {
-        showToast(`♥ Лайк ${profiles[index].name}`);
+        showToast(`♥ Лайк ${profile.name}`);
       }
+      
+      saveData();
+      updateUI();
       swipe('right');
-    });
+    }
     
-    document.getElementById('skipBtn').addEventListener('click', () => swipe('left'));
-    
-    document.getElementById('superBtn').addEventListener('click', () => {
-      if (!elite) {
+    function handleSuperLike() {
+      if (!appData.isPremium) {
         showToast('Суперлайк — только для Элиты!');
         return;
       }
-      matches.push(profiles[index]);
-      document.getElementById('matchesCount').textContent = matches.length;
-      showMatch(profiles[index].name);
+      
+      const profile = appData.profiles[appData.currentProfileIndex];
+      appData.matches.push({ ...profile, message: 'Суперлайк!', time: new Date() });
+      document.getElementById('matchText').textContent = `Вы и ${profile.name} — Супермэтч!`;
+      showModal('match');
+      
+      saveData();
+      updateUI();
       swipe('left');
-    });
+    }
     
-    document.getElementById('membershipBtn').addEventListener('click', () => {
-      elite = true;
-      document.getElementById('planBadge').textContent = 'Элита';
-      document.getElementById('likesLeft').textContent = '∞';
+    // === PROFILE ===
+    function renderProfile() {
+      const user = appData.currentUser;
+      if (!user) return;
+      
+      document.getElementById('profileAvatar').textContent = user.name[0].toUpperCase();
+      document.getElementById('profileName').textContent = user.name;
+      document.getElementById('profileCity').textContent = `${user.city || 'Город'}, ${user.age || 'возраст'}`;
+      document.getElementById('profileBio').value = user.bio || '';
+      document.getElementById('profileTags').value = (user.tags || []).join(', ');
+      
+      renderPhotos();
+    }
+    
+    function renderPhotos() {
+      const grid = document.getElementById('photosGrid');
+      const user = appData.currentUser;
+      let html = '';
+      (user.photos || []).forEach((photo, i) => {
+        html += `<div class="photo-frame"><img src="${photo}"></div>`;
+      });
+      html += `<div class="photo-frame photo-add" onclick="addPhoto()">+</div>`;
+      grid.innerHTML = html;
+    }
+    
+    function addPhoto() {
+      const url = prompt('Введите URL фотографии:');
+      if (url) {
+        appData.currentUser.photos = appData.currentUser.photos || [];
+        appData.currentUser.photos.push(url);
+        renderPhotos();
+        showToast('Фото добавлено!');
+      }
+    }
+    
+    function saveProfile() {
+      appData.currentUser.bio = document.getElementById('profileBio').value;
+      appData.currentUser.tags = document.getElementById('profileTags').value.split(',').map(t => t.trim()).filter(t => t);
+      saveData();
+      showToast('Сохранено!');
+    }
+    
+    // === MATCHES ===
+    function renderMatches() {
+      const list = document.getElementById('matchesList');
+      if (appData.matches.length === 0) {
+        list.innerHTML = `<div class="empty"><div class="empty-icon">💫</div><p>Пока нет мэтчей</p><p style="font-size:12px;margin-top:8px">Ставьте лайки, чтобы найти совпадения</p></div>`;
+        return;
+      }
+      
+      let html = '';
+      appData.matches.forEach(m => {
+        html += `
+          <div class="match-item">
+            <img class="match-avatar" src="${m.photos[0]}">
+            <div class="match-info">
+              <p class="match-name">${m.name}, ${m.age}</p>
+              <p class="match-msg">${m.message || 'Начните общение'}</p>
+            </div>
+          </div>
+        `;
+      });
+      list.innerHTML = html;
+    }
+    
+    // === MODALS ===
+    function showModal(id) {
+      document.getElementById(id + 'Modal').classList.add('show');
+    }
+    
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(m => m.classList.remove('show'));
+    }
+    
+    // === MEMBERSHIP ===
+    let selectedPlan = 'monthly';
+    const prices = { monthly: '99₽', yearly: '799₽', lifetime: '1999₽' };
+    
+    function selectPlan(plan) {
+      selectedPlan = plan;
+      document.querySelectorAll('.payment-method').forEach((el, i) => {
+        el.classList.toggle('selected', ['monthly','yearly','lifetime'][i] === plan);
+      });
+      document.getElementById('priceDisplay').innerHTML = prices[plan] + (plan === 'monthly' ? '<span>/мес</span>' : plan === 'yearly' ? '<span>/год</span>' : '<span></span>');
+    }
+    
+    function processPayment() {
+      // Simulate payment
+      appData.isPremium = true;
+      appData.premiumPlan = selectedPlan;
+      saveData();
+      updateUI();
+      closeModal();
       showToast('🎉 Добро пожаловать в Элиту!');
-    });
+    }
     
+    // === TOAST ===
     function showToast(msg) {
       const toast = document.getElementById('toast');
       toast.textContent = msg;
@@ -831,17 +754,8 @@
       setTimeout(() => toast.classList.remove('show'), 2800);
     }
     
-    function showMatch(name) {
-      document.getElementById('matchName').textContent = `Вы и ${name} понравились друг другу!`;
-      document.getElementById('matchModal').classList.add('show');
-    }
-    
-    function closeMatch() {
-      document.getElementById('matchModal').classList.remove('show');
-    }
-    
     // === INIT ===
-    render();
+    loadData();
   </script>
 </body>
 </html>
