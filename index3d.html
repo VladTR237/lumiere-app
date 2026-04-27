@@ -1,300 +1,406 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LUMIÈRE — 3D Elite Space</title>
-    <meta name="description" content="LUMIÈRE — 3D exclusive connections" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Tenor+Sans&display=swap" rel="stylesheet" />
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      
-      body {
-        font-family: 'Tenor Sans', sans-serif;
-        background: #000;
-        color: #f5f5f0;
-        overflow: hidden;
-        width: 100vw;
-        height: 100vh;
-      }
-
-      #canvas-container {
-        position: fixed;
-        inset: 0;
-        z-index: 1;
-      }
-
-      .ui-overlay {
-        position: fixed;
-        z-index: 10;
-        pointer-events: none;
-      }
-
-      .ui-overlay > * {
-        pointer-events: auto;
-      }
-
-      .header {
-        top: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.5rem 2rem;
-        background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
-      }
-
-      .logo {
-        font-size: 1.6rem;
-        font-weight: 500;
-        letter-spacing: 0.2em;
-        color: #c9a962;
-      }
-
-      .badges {
-        display: flex;
-        gap: 0.8rem;
-      }
-
-      .chip {
-        border: 1px solid rgba(201, 169, 98, 0.3);
-        padding: 0.4rem 0.8rem;
-        font-size: 0.7rem;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-      }
-
-      .chip.gold {
-        background: rgba(201, 169, 98, 0.15);
-        border-color: #c9a962;
-        color: #c9a962;
-      }
-
-      .bottom-panel {
-        bottom: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        padding: 2rem;
-        background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
-      }
-
-      .profile-info {
-        position: absolute;
-        left: 2rem;
-        bottom: 6rem;
-        max-width: 280px;
-      }
-
-      .profile-info h2 {
-        font-size: 1.8rem;
-        font-weight: 500;
-        margin-bottom: 0.3rem;
-      }
-
-      .profile-info .city {
-        color: #888;
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .profile-info .bio {
-        color: #aaa;
-        font-size: 0.95rem;
-        line-height: 1.5;
-        font-style: italic;
-      }
-
-      .actions {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .action-btn {
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        border: 2px solid rgba(201, 169, 98, 0.3);
-        background: rgba(20, 20, 20, 0.8);
-        color: #c9a962;
-        font-size: 1.5rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-      }
-
-      .action-btn:hover {
-        border-color: #c9a962;
-        background: rgba(201, 169, 98, 0.15);
-        transform: scale(1.1);
-      }
-
-      .action-btn.like {
-        background: linear-gradient(135deg, #9a7d3e, #c9a962);
-        color: #000;
-        border-color: #c9a962;
-      }
-
-      .action-btn.super {
-        width: 56px;
-        height: 56px;
-        font-size: 1.2rem;
-      }
-
-      .stats-bar {
-        position: absolute;
-        right: 2rem;
-        bottom: 6rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        text-align: right;
-      }
-
-      .stat {
-        text-align: right;
-      }
-
-      .stat-value {
-        font-size: 1.4rem;
-        color: #c9a962;
-      }
-
-      .stat-label {
-        font-size: 0.7rem;
-        color: #666;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-      }
-
-      .loading {
-        position: fixed;
-        inset: 0;
-        background: #000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 100;
-        transition: opacity 0.8s ease;
-      }
-
-      .loading.hidden {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      .loading span {
-        font-size: 1.2rem;
-        letter-spacing: 0.3em;
-        color: #c9a962;
-        animation: pulse 2s ease infinite;
-      }
-
-      @keyframes pulse {
-        0%, 100% { opacity: 0.5; }
-        50% { opacity: 1; }
-      }
-
-      .membership-panel {
-        position: fixed;
-        right: 2rem;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
-      }
-
-      .member-btn {
-        background: rgba(20, 20, 20, 0.9);
-        border: 1px solid rgba(201, 169, 98, 0.3);
-        color: #c9a962;
-        padding: 0.8rem 1.2rem;
-        font-family: 'Tenor Sans', sans-serif;
-        font-size: 0.8rem;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        cursor: pointer;
-        backdrop-filter: blur(10px);
-        transition: all 0.3s ease;
-      }
-
-      .member-btn:hover {
-        background: rgba(201, 169, 98, 0.15);
-        border-color: #c9a962;
-      }
-
-      .price {
-        color: #f5f5f0;
-        margin: 0.5rem 0;
-      }
-
-      .hint {
-        position: fixed;
-        left: 50%;
-        bottom: 9rem;
-        transform: translateX(-50%);
-        color: #666;
-        font-size: 0.8rem;
-        letter-spacing: 0.05em;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="loading" id="loading"><span>LUMIÈRE</span></div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>LUMIÈRE — Elite Dating</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
-    <div id="canvas-container"></div>
-
-    <header class="ui-overlay header">
-      <div class="logo">LUMIÈRE</div>
-      <div class="badges">
-        <span class="chip gold" id="planBadge">Member</span>
-        <span class="chip" id="verifiedBadge">Unverified</span>
-      </div>
-    </header>
-
-    <div class="profile-info ui-overlay" style="left: 2rem; bottom: 6rem;">
-      <h2 id="profileName">Princess Alina</h2>
-      <p class="city" id="profileCity">Moscow, 26</p>
-      <p class="bio" id="profileBio">Sorbonne. Charity, opera, antique jewelry.</p>
-      <div class="tags" id="profileTags" style="margin-top: 0.8rem; display: flex; gap: 0.4rem;"></div>
+    :root {
+      --gold: #c9a962;
+      --gold-dark: #9a7d3e;
+      --bg: #0a0a0a;
+      --card: #141414;
+      --text: #f5f5f0;
+      --muted: #888;
+    }
+    
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+    
+    .logo {
+      font-family: 'Cinzel', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 4px;
+    }
+    
+    .badges { display: flex; gap: 10px; }
+    
+    .badge {
+      padding: 8px 14px;
+      border: 1px solid rgba(201,169,98,0.3);
+      border-radius: 4px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .badge.gold {
+      background: var(--gold);
+      color: #000;
+      border-color: var(--gold);
+    }
+    
+    .main {
+      padding-top: 100px;
+      padding-bottom: 180px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .profile-card {
+      width: 90%;
+      max-width: 340px;
+      background: var(--card);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid #222;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    
+    .profile-img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      background: #1a1a1a;
+    }
+    
+    .profile-info {
+      padding: 20px;
+    }
+    
+    .profile-name {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    
+    .profile-city {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    
+    .profile-bio {
+      color: #aaa;
+      font-size: 14px;
+      line-height: 1.5;
+      font-style: italic;
+    }
+    
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    
+    .tag {
+      padding: 6px 12px;
+      border: 1px solid #333;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--gold);
+    }
+    
+    .actions {
+      position: fixed;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 0 20px;
+      z-index: 100;
+    }
+    
+    .btn {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 2px solid #333;
+      background: var(--card);
+      color: var(--gold);
+      font-size: 28px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    
+    .btn:active { transform: scale(0.95); }
+    
+    .btn.like {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      border-color: var(--gold);
+      color: #000;
+      font-size: 32px;
+      box-shadow: 0 10px 30px rgba(201,169,98,0.3);
+    }
+    
+    .btn.skip:hover { border-color: #ff4444; color: #ff4444; }
+    .btn.super:hover { border-color: #44aaff; color: #44aaff; }
+    
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 30px 0;
+    }
+    
+    .stat { text-align: center; }
+    .stat-value { font-size: 32px; color: var(--gold); font-weight: 600; }
+    .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    
+    .membership {
+      position: fixed;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--card);
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 15px;
+      width: 140px;
+    }
+    
+    .membership h3 {
+      font-size: 11px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    
+    .membership .price {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 10px 0;
+    }
+    
+    .membership .btn-buy {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    
+    .hint {
+      position: fixed;
+      bottom: 130px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    
+    .toast {
+      position: fixed;
+      top: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card);
+      border: 1px solid var(--gold);
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-size: 14px;
+      z-index: 200;
+      display: none;
+    }
+    
+    .toast.show { display: block; animation: fadeIn 0.3s; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    
+    @media (max-width: 600px) {
+      .membership { display: none; }
+      .profile-img { height: 350px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">LUMIÈRE</div>
+    <div class="badges">
+      <span class="badge gold" id="planBadge">Member</span>
+      <span class="badge" id="verifyBadge">Unverified</span>
     </div>
-
-    <div class="ui-overlay stats-bar" style="right: 2rem; bottom: 6rem;">
+  </header>
+  
+  <main class="main">
+    <div class="stats">
       <div class="stat">
         <p class="stat-value" id="likesLeft">5</p>
-        <p class="stat-label">Likes Today</p>
+        <p class="stat-label">Likes</p>
       </div>
       <div class="stat">
         <p class="stat-value" id="matchesCount">0</p>
         <p class="stat-label">Matches</p>
       </div>
     </div>
-
-    <div class="ui-overlay hint">Swipe or click buttons to connect</div>
-
-    <div class="membership-panel ui-overlay" style="right: 2rem;">
-      <span class="chip" style="text-align: right;">Elite Membership</span>
-      <p class="price">₽125 000 /year</p>
-      <button class="member-btn" id="premiumBtn">Become Elite</button>
-    </div>
-
-    <div class="ui-overlay bottom-panel">
-      <div class="actions">
-        <button class="action-btn" id="skipBtn">✕</button>
-        <button class="action-btn like" id="likeBtn">♥</button>
-        <button class="action-btn super" id="superBtn">★</button>
+    
+    <div class="profile-card">
+      <img class="profile-img" id="profileImg" src="" alt="Photo">
+      <div class="profile-info">
+        <h2 class="profile-name" id="profileName">Princess Alina</h2>
+        <p class="profile-city" id="profileCity">Moscow, 26</p>
+        <p class="profile-bio" id="profileBio">Sorbonne graduate. Charity, opera, antique jewelry.</p>
+        <div class="tags" id="tags"></div>
       </div>
     </div>
+  </main>
+  
+  <p class="hint">Tap buttons below to connect</p>
+  
+  <aside class="membership">
+    <h3>Elite Membership</h3>
+    <p class="price">₽125 000<span>/year</span></p>
+    <button class="btn-buy" id="buyBtn">Become Elite</button>
+    <p style="margin-top:10px;font-size:11px;color:#666;">Unlimited likes<br>Priority visibility</p>
+  </aside>
+  
+  <div class="actions">
+    <button class="btn skip" id="skipBtn">✕</button>
+    <button class="btn like" id="likeBtn">♥</button>
+    <button class="btn super" id="superBtn">★</button>
+  </div>
+  
+  <div class="toast" id="toast"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-    <script src="script3d.js"></script>
-  </body>
+  <script>
+    const profiles = [
+      { name: "Princess Alina", age: 26, city: "Moscow", bio: "Sorbonne graduate. Charity, opera, antique jewelry.", tags: ["Culture", "Travel", "Charity"], img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80" },
+      { name: "Count Egor", age: 29, city: "St. Petersburg", bio: "Family business heir. Vintage watch collector.", tags: ["Business", "Art", "Vintage"], img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80" },
+      { name: "Marquise Sophia", age: 24, city: "Kazan", bio: "Artist at Windsor Gallery. Modern art muse.", tags: ["Art", "Gallery"], img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800&q=80" },
+      { name: "Baron Maxim", age: 31, city: "Ekaterinburg", bio: "Tech startup founder. Travel is my life.", tags: ["IT", "Travel"], img: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=800&q=80" },
+      { name: "Duchess Polina", age: 27, city: "Novosibirsk", bio: "CEO of advertising agency. Ambitious.", tags: ["Business", "Career"], img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80" },
+      { name: "Viscount Danil", age: 28, city: "Krasnodar", bio: "Wine trader. Snowboard virtuoso.", tags: ["Wine", "Sport"], img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80" },
+      { name: "Countess Maria", age: 30, city: "Nizhny Novgorod", bio: "Renowned architect. Fan of fine wines.", tags: ["Architecture", "Art"], img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80" },
+      { name: "Lord Ilya", age: 25, city: "Rostov-on-Don", bio: "Investor. Mountains and silence lover.", tags: ["Investing", "Hiking"], img: "https://images.unsplash.com/photo-1504593811423-6dd665756598?w=800&q=80" }
+    ];
+    
+    let index = 0;
+    let likes = 5;
+    let matches = [];
+    let elite = false;
+    
+    const imgEl = document.getElementById('profileImg');
+    const nameEl = document.getElementById('profileName');
+    const cityEl = document.getElementById('profileCity');
+    const bioEl = document.getElementById('profileBio');
+    const tagsEl = document.getElementById('tags');
+    const toast = document.getElementById('toast');
+    
+    function show(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+    
+    function render() {
+      const p = profiles[index];
+      imgEl.src = p.img;
+      nameEl.textContent = p.name;
+      cityEl.textContent = `${p.city}, ${p.age}`;
+      bioEl.textContent = p.bio;
+      tagsEl.innerHTML = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+    }
+    
+    function next() {
+      index = (index + 1) % profiles.length;
+      render();
+    }
+    
+    function swipe(direction) {
+      const card = document.querySelector('.profile-card');
+      card.style.transition = 'all 0.3s';
+      card.style.transform = `translateX(${direction === 'left' ? -500 : 500}px) rotate(${direction === 'left' ? -20 : 20}deg)`;
+      card.style.opacity = '0';
+      
+      setTimeout(() => {
+        card.style.transition = 'none';
+        card.style.transform = '';
+        card.style.opacity = '';
+        next();
+      }, 300);
+    }
+    
+    document.getElementById('likeBtn').addEventListener('click', () => {
+      if (!elite && likes <= 0) {
+        show('Limit reached! Become Elite');
+        return;
+      }
+      if (!elite) likes--;
+      document.getElementById('likesLeft').textContent = elite ? '∞' : likes;
+      
+      if (Math.random() > 0.5) {
+        matches.push(profiles[index]);
+        document.getElementById('matchesCount').textContent = matches.length;
+        show(`✨ Match with ${profiles[index].name}!`);
+      } else {
+        show(`♥ Like sent to ${profiles[index].name}`);
+      }
+      swipe('right');
+    });
+    
+    document.getElementById('skipBtn').addEventListener('click', () => swipe('left'));
+    
+    document.getElementById('superBtn').addEventListener('click', () => {
+      if (!elite) {
+        show('Super Like is Elite only!');
+        return;
+      }
+      matches.push(profiles[index]);
+      document.getElementById('matchesCount').textContent = matches.length;
+      show(`⭐ Super Match with ${profiles[index].name}!`);
+      swipe('left');
+    });
+    
+    document.getElementById('buyBtn').addEventListener('click', () => {
+      elite = true;
+      document.getElementById('planBadge').textContent = 'Elite';
+      document.getElementById('likesLeft').textContent = '∞';
+      show('🎉 Welcome to Elite!');
+    });
+    
+    render();
+  </script>
+</body>
 </html>
